@@ -1,0 +1,177 @@
+   10 REM >VDUCH
+   20 *K.0MO.7|MVDU14|ML.840,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~P%|M
+   60 *K.10O.|M*FX12,2|M
+   70 *TV255,1
+   80 PROCvdu_chars
+   90 PROCassemble
+  100 PROCnew_code
+  110 PROCwait_for
+  120 PROCcreate_dummy
+  130 PROCread_chars
+  140 CLS
+  150 PRINT"Complete"
+  160 END
+  170  
+  180 DEFPROCnew_code
+  190 death      =&2D
+  200 vapor      =&2E
+  210 dials      =&40
+  220 tempa      =&70
+  230 opton      =&82
+  240 deftr      =&A4C
+  250 NOISE      =&9806
+  260 FORA%=0TO2STEP2
+  270 P%=&5400+((last_char%-31)*8)
+  280 [OPTA%
+  290 .INFRM JMPA
+  300 .DPLET JMPB
+  310 .BANKS JMPC
+  320  
+  330 .A
+  340  LDAdeath
+  350  BNEexits
+  360  LDX#&1
+  370  LDAdials+&2
+  380  BEQbares
+  390  LDAdials+&3
+  400  BNEexits
+  410  INX
+  420 .bares
+  430  STXvapor
+  440 .exits
+  450  RTS
+  460  
+  470 .B
+  480  LDA#&40
+  490  BITdeftr
+  500  BMIminus
+  510  LSRA
+  520 .minus
+  530  STAtempa
+  540  LDAdials+&2,X
+  550  BEQempty
+  560  SBCtempa
+  570  BCCempty
+  580  STAdials+&2,X
+  590  LDA#15
+  600  JMPNOISE
+  610 .empty
+  620  STZdials+&2,X
+  630  LDAdials+&1
+  640  BEQfinal
+  650  SBCtempa
+  660  BCCfinal
+  670  STAdials+&1
+  680  LDA#14
+  690  JMPNOISE
+  700 .final
+  710  STZdials+&1
+  720  LDAdials
+  730  SBCtempa
+  740  BCSfresh
+  750 .track
+  760  STZdials
+  770  INCdeath
+  780  RTS
+  790 .fresh
+  800  STAdials
+  810  LDA#14
+  820  JMPNOISE
+  830  
+  840 .C
+  850  LDAdials+&1
+  860  BEQalone
+  870  SBC#&40
+  880  BCSgreat
+  890  LDA#&0
+  900 .great
+  910  STAdials+&1
+  920  BNEexits
+  930 .alone
+  940  LDAdials
+  950  SBC#&40
+  960  BCCtrack
+  970  STAdials
+  980  RTS
+  990  
+ 1000 ]:NEXT
+ 1010 ENDPROC
+ 1020  
+ 1030 DEFPROCassemble
+ 1040 DIM MCODE% 64
+ 1050 last_char% =142
+ 1060 OSO        =&FFF1
+ 1070 OSB        =&FFF4
+ 1080  
+ 1090 FORA%=0TO2STEP2
+ 1100 P%=MCODE%
+ 1110 [OPTA%
+ 1120 .SCANS
+ 1130  STAinput
+ 1140  LDX#input AND255
+ 1150  LDY#input DIV256
+ 1160  LDA#&A
+ 1170  JSROSO
+ 1180  RTS
+ 1190  
+ 1200 .input
+ 1210  EQUB 0
+ 1220  EQUD 0
+ 1230  EQUD 0
+ 1240  
+ 1250 ]:NEXT
+ 1260 ENDPROC
+ 1270  
+ 1280 DEFPROCvdu_chars
+ 1290 VDU23,128,128,128,224,63,0,63,224,128
+ 1300 VDU23,129,142,132,228,63,0,63,224,128
+ 1310 VDU23,130,0,0,0,255,0,255,0,0
+ 1320 VDU23,131,40,40,40,40,40,40,40,40
+ 1330 VDU23,132,0,0,0,248,8,232,40,40
+ 1340 VDU23,133,0,0,0,63,32,47,40,40
+ 1350 VDU23,134,0,0,0,255,0,239,40,40
+ 1360 VDU23,135,40,40,40,232,8,248,0,0
+ 1370 VDU23,136,1,1,7,252,0,252,7,1
+ 1380 VDU23,137,40,40,40,239,0,255,0,0
+ 1390 VDU23,138,40,40,40,47,32,63,0,0
+ 1400 VDU23,139,40,40,40,232,8,232,40,40
+ 1410 VDU23,140,255,129,129,129,129,129,129,255
+ 1420 VDU23,141,113,33,39,252,0,252,7,1
+ 1430 VDU23,142,0,1,2,4,8,80,32,0
+ 1440 ENDPROC
+ 1450  
+ 1460 DEFPROCread_chars
+ 1470 LOCAL File%
+ 1480 File%=OPENOUT":1.C.CODES"
+ 1490 FORA%=32TO last_char%
+ 1500 CALLSCANS
+ 1510 FORJ%=1TO8
+ 1520 BPUT#File%,J%?input
+ 1530 NEXT
+ 1540 NEXT
+ 1550 FORA%=INFRM TO &57FF
+ 1560 BPUT#File%,?A%
+ 1570 NEXT
+ 1580 CLOSE#File%
+ 1590 *DRIVE0
+ 1600 ENDPROC
+ 1610  
+ 1620 DEFPROCcreate_dummy
+ 1630 *DRIVE1
+ 1640 *SAVE :1.C.CODES 2000 +400 5400 5400
+ 1650 ENDPROC
+ 1660  
+ 1670 DEFPROCwait_for
+ 1680 CLS
+ 1690 VDU23,1,0;0;0;0;
+ 1700 PRINT"Press any key to save"
+ 1710 *FX15
+ 1720 x=GET
+ 1730 CLS
+ 1740 PRINT"Saving..."
+ 1750 ENDPROC
+ 1760  
+

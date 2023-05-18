@@ -1,0 +1,749 @@
+   10 REM >DEATH
+   20 *K.0MO.7|MVDU14|ML.6490,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~O%,~P%|M
+   60 *K.4*SAVE :1.UIM-C 6000 +08E0 0A08 2E00|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 funcs=&3F
+  100  
+  110 steal=&0
+  120 letgo=&1
+  130 grabs=&2
+  140 wings=&5
+  150 state=&7
+  160 pickd=&A
+  170 pulse=&14
+  180 split=&15
+  190 ident=&17
+  200 distn=&18
+  210 randy=&10
+  220 xsrot=&20
+  230 ysrot=&21
+  240 zsrot=&22
+  250 xpont=&23
+  260 ypont=&24
+  270 zpont=&25
+  280 twisx=&26
+  290 twisy=&27
+  300 twisz=&28
+  310 death=&2D
+  320 vapor=&2E
+  330 negag=&30
+  340 dials=&40
+  350 origx=&60
+  360 origy=&62
+  370 tcols=&64
+  380 tempa=&70
+  390 tempx=&71
+  400 tempy=&72
+  410 tempz=&73
+  420 indir=&74
+  430 piccy=&7D
+  440 opton=&82
+  450 vdurs=&8D
+  460 strax=&90
+  470 stray=&92
+  480 endex=&94
+  490 endey=&96
+  500 archi=&A0
+  510 AROFF=&403
+  520 magns=&A03
+  530 galax=&A06
+  540 ships=&A0D
+  550 smine=&A0F
+  560 phase=&A33
+  570 cloak=&A35
+  580 empdv=&A37
+  590 tract=&A38
+  600 chaff=&A39
+  610 chamn=&A3B
+  620 targe=&A3E
+  630 headu=&A3F
+  640 eurek=&A44
+  650 alock=&A4E
+  660 mmodl=&A4F
+  670 btrap=&A51
+  680 edent=&A70
+  690 comod=&A90
+  700 buffr=&AD0
+  710 MASTR=&B00
+  720 PDATA=&B06
+  730 START=&1200
+  740 WIPES=&1209
+  750 GENER=&1218
+  760 ADDUP=&121E
+  770 SPACE=&1221
+  780 xshil=&1224
+  790 xship=&1234
+  800 yshil=&1244
+  810 yship=&1254
+  820 zshil=&1264
+  830 zship=&1274
+  840 depth=&1284
+  850 iship=&1294
+  860 lbyte=&12B4
+  870 hbyte=&12C4
+  880 kills=&12D4
+  890 currx=&12E4
+  900 curry=&12F4
+  910 currz=&1304
+  920 CENTR=&1314
+  930 POLYS=&1800
+  940 FACES=&1803
+  950 SWIVL=&1C12
+  960 SUCKS=&1C18
+  970 RANDY=&3A92
+  980 RSTAT=&4D8C
+  990 DPLET=&577B
+ 1000 BANKS=&577E
+ 1010 SWRAM=&8000
+ 1020 PENCL=&9803
+ 1030 NOISE=&9806
+ 1040 DELAY=&980C
+ 1050 SHOWS=&AF03
+ 1060 CLEAN=&AF06
+ 1070 PRYNT=&AF0C
+ 1080 TRACT=&AF18
+ 1090 FLASH=&AF21
+ 1100 BARRS=&AF27
+ 1110 FORA%=4TO6STEP2
+ 1120 O%=&6000
+ 1130 P%=&2E00
+ 1140 [OPTA%
+ 1150 .DEATH JMPA
+ 1160 .DVICE JMPB
+ 1170 .MANIP JMPC
+ 1180 .CTRLS JMPD
+ 1190 .CLEVR JMPE
+ 1200 .TARGT JMPF
+ 1210 .DCARD JMPG
+ 1220 .COLIS JMPH
+ 1230 .OPPON JMPI
+ 1240 .TURPS JMPJ
+ 1250 .PICKY JMPK
+ 1260 .BOXIT JMPL
+ 1270  
+ 1280 .A
+ 1290 LDAdeath:BEQexits
+ 1300 JSRCRACK
+ 1310 .exits RTS
+ 1320  
+ 1330 .CRACK
+ 1340 INCsplit:LDAsplit:STAtempa
+ 1350 STZtempx
+ 1360 STZdials:STZdials+&1
+ 1370 STZdials+&2:STZdials+&3
+ 1380 .glass
+ 1390 JSRRANDY
+ 1400 LDArandy+&1:BEQedges
+ 1410 CMP#192:BCSedges
+ 1420 TAY:LSRA:LSRA:LSRA
+ 1430 CLC:ADC#SWRAM DIV&100:STAindir+&1
+ 1440 TYA:AND#&7:STAindir:STZtempy
+ 1450 .satik
+ 1460 JSRRANDY
+ 1470 LDYtempy:ORA(indir),Y:STA(indir),Y
+ 1480 TYA:CLC:ADC#&8:STAtempy
+ 1490 BNEsatik
+ 1500 .edges
+ 1510 INCtempx:LDAtempx
+ 1520 CMPtempa:BNEglass
+ 1530 LDAsplit:CMP#&18:BCCexits
+ 1540 JSRCLEAN
+ 1550 LDA#&6:JSRNOISE
+ 1560 LDA#&7:JSRNOISE
+ 1570 JSRAROFF
+ 1580 JSRWIPES
+ 1590 LDX#overs AND255:LDY#overs DIV&100
+ 1600 LDA#endof-overs:JSRPRYNT
+ 1610 JSRSHOWS
+ 1620 STZtcols:STZdials+&4
+ 1630 JSRRSTAT
+ 1640 JSRBARRS
+ 1650 LDX#&FF
+ 1660 STXdials:STXdials+&1
+ 1670 STXdials+&2:STXdials+&3
+ 1680 JSRDELAY
+ 1690 LDA#(MASTR-&1)DIV&100:PHA
+ 1700 LDA#(MASTR-&1)AND&FF:PHA
+ 1710 JMPPDATA
+ 1720  
+ 1730 .overs
+ 1740 EQUW&B1F:EQUB8
+ 1750 EQUS"GAME  OVER"
+ 1760 .endof
+ 1770  
+ 1780 .B
+ 1790 BITphase:BMImisin
+ 1800 LDAbuffr+&24:BEQmisin:DECphase
+ 1810 JSRFLASH
+ 1820 LDA#26:JSRNOISE
+ 1830 LDA#&40:JSRSUCKS
+ 1840 JSRWIPES
+ 1850 JSRSTART
+ 1860 LDX#50:JMPDELAY
+ 1870 .misin
+ 1880 BITempdv:BMInpuls
+ 1890 LDAbuffr+&2D:ANDbuffr+&E:BEQcpuls
+ 1900 LDApulse:BNEnpuls
+ 1910 LDA#20:STApulse:JSRNOISE
+ 1920 LDA#&C0:JSRSUCKS
+ 1930 BITrandy:BVCnpuls
+ 1940 LDX#&F
+ 1950 .alook
+ 1960 LDAiship,X:CMP#&10:BCSlosts
+ 1970 LDAkills,X:CMP#&3:BCClosts
+ 1980 DECkills,X:BPLnpuls
+ 1990 .losts
+ 2000 DEX:BNEalook:RTS
+ 2010 .cpuls
+ 2020 STApulse
+ 2030 .npuls
+ 2040 BITcloak:BMIgreen
+ 2050 BITsteal:BPLnogos
+ 2060 LDAbuffr+&25:BEQgreen
+ 2070 BITsteal:BPLgreen
+ 2080 LDA#&20:STAsteal
+ 2090 LDA#27:JMPNOISE
+ 2100 .nogos
+ 2110 DECsteal:LDA#&8:JSRSUCKS
+ 2120 .green
+ 2130 BITchamn:BMIdpart
+ 2140 LDAbuffr+&1E:BEQreles
+ 2150 LDAletgo:BNEdpart
+ 2160 LDA#&20:STAletgo
+ 2170 LDA#16:JMPNOISE
+ 2180 .reles
+ 2190 LDAletgo:BEQdpart:DECletgo
+ 2200 LDA#&2:JMPSUCKS
+ 2210  
+ 2220 .C
+ 2230 BITtract:BMIdpart
+ 2240 LDAgrabs:BMIkytes:INCgrabs
+ 2250 JSRTRACT
+ 2260 LDAgrabs
+ 2270 CMP#&8:BEQviews
+ 2280 CMP#&10:BCCdpart
+ 2290 LDA#&FF:STAgrabs
+ 2300 .dpart RTS
+ 2310 .kytes
+ 2320 LDAbuffr+&26:BEQdpart
+ 2330 INCgrabs:LDA#28:JMPNOISE
+ 2340 .views
+ 2350 LDX#&F
+ 2360 .looks
+ 2370 LDAiship,X:ORAzship,X:BMInexts
+ 2380 LDAdepth,X:CMP#&10:BCSnexts
+ 2390 LDAiship,X:CMP#&10
+ 2400 BCCplund:BNEdpart
+ 2410 .board
+ 2420 LDY#&3
+ 2430 .serch
+ 2440 LDAcomod,Y:BMIaslot
+ 2450 DEY:BPLserch:RTS
+ 2460 .aslot
+ 2470 LDA#&1:STAcomod+&4,Y
+ 2480 LDA#&FF:STAiship,X
+ 2490 LDArandy:AND#&F:STAcomod,Y
+ 2500 TAX:CLC:ADC#&20:STAvapor
+ 2510 LDAedent,X:AND#&7
+ 2520 STAcomod+&C,Y:RTS
+ 2530 .plund
+ 2540 BITalock:BMIdpart
+ 2550 LDAlbyte,X:AND#&20:BNEdpart
+ 2560 LDAlbyte,X:ASLA:BMIboobi
+ 2570 STXvdurs:JSRFLASH
+ 2580 LDXvdurs:JSRboard
+ 2590 TYA:BMIdpart
+ 2600 LDA#&3:STAcomod+&4,Y:RTS
+ 2610 .boobi
+ 2620 LDAbtrap:STAdeath
+ 2630 LDA#&9:STAvapor:RTS
+ 2640 .nexts
+ 2650 DEX:BNElooks:RTS
+ 2660  
+ 2670 .D
+ 2680 LDX#&F
+ 2690 .serve
+ 2700 LDAiship,X:BMIminus
+ 2710 LDYdepth,X:CPY#&8:BCSminus
+ 2720 CMP#18:BEQdieds
+ 2730 CMP#22:BEQdieds
+ 2740 CMP#21:BNEordin
+ 2750 LDAhbyte,X:BPLminus
+ 2760 .ordin
+ 2770 LDAletgo:BNEminus
+ 2780 LDA#&FF:STAiship,X
+ 2790 JSRFLASH
+ 2800 LDX#&0:JSRDPLET
+ 2810 LDX#&0:JSRDPLET
+ 2820 LDX#&1:JSRDPLET
+ 2830 LDX#&1:JSRDPLET
+ 2840 JSRBANKS
+ 2850 JSRBANKS
+ 2860 JMPBANKS
+ 2870 .minus
+ 2880 DEX:BNEserve:RTS
+ 2890 .dieds
+ 2900 STZdials:STZdials+&1
+ 2910 STZdials+&2:STZdials+&3
+ 2920 LDA#&FF:STAiship,X:STAdeath
+ 2930 LDA#25:JSRNOISE
+ 2940 JMPFLASH
+ 2950  
+ 2960 .E
+ 2970 LDX#&F
+ 2980 .logic
+ 2990 LDAiship,X:BMIcannt:STXvdurs
+ 3000 ASLA:TAX:JSRirect
+ 3010 JSRRANDY:LDXvdurs
+ 3020 .cannt
+ 3030 DEX:BPLlogic:RTS
+ 3040 .irect
+ 3050 JMP(table,X)
+ 3060  
+ 3070 .table
+ 3080 EQUW SUBBS
+ 3090 EQUW SUBBS
+ 3100 EQUW SUBBS
+ 3110 EQUW SUBBS
+ 3120 EQUW SUBBS
+ 3130 EQUW SUBBS
+ 3140 EQUW SUBBS
+ 3150 EQUW SUBBS
+ 3160 EQUW SUBBS
+ 3170 EQUW SUBBS
+ 3180 EQUW SUBBS
+ 3190 EQUW SUBBS
+ 3200 EQUW SUBBS
+ 3210 EQUW SUBBS
+ 3220 EQUW SUBBS
+ 3230 EQUW SUBBS
+ 3240 EQUW DEBRI
+ 3250 EQUW MARKR
+ 3260 EQUW DEBRI
+ 3270 EQUW DEBRI
+ 3280 EQUW DEBRI
+ 3290 EQUW TERPS
+ 3300 EQUW DEBRI
+ 3310 EQUW DEBRI
+ 3320 EQUW DEBRI
+ 3330 EQUW REPLI
+ 3340 EQUW REPLI
+ 3350 EQUW REPLI
+ 3360 EQUW REPLI
+ 3370 EQUW REPLI
+ 3380 EQUW REPLI
+ 3390 EQUW REPLI
+ 3400  
+ 3410 .SUBBS
+ 3420 LDXvdurs
+ 3430 JSRBITTA
+ 3440 JSRBITTB
+ 3450 JSRBITTC
+ 3460 JSRBITTD
+ 3470 JMPBITTE
+ 3480  
+ 3490 .BITTA
+ 3500 LDAlbyte,X:LSRA:BCCbitta
+ 3510 JSRSLIDE
+ 3520 LDAhbyte,X:AND#&2:BEQbittc
+ 3530 JMPSPEED
+ 3540 .bitta
+ 3550 PLA:PLA:RTS
+ 3560  
+ 3570 .BITTB
+ 3580 LDAlbyte,X:AND#&2:BEQbittc
+ 3590 LDAxship,X:STAtempa
+ 3600 LDAyship,X:STAtempx
+ 3610 LDAzship,X:STAtempy
+ 3620 STZtempz:STZindir:STZindir+&1
+ 3630 JSRWAYYS
+ 3640 LDAdepth,X:CMP#&60:BCSbittc
+ 3650 LDYstate:LDArandy+&3
+ 3660 CMPagres,Y:BCCbittc
+ 3670 JMPVISIB
+ 3680  
+ 3690 .agres EQUD&D0C0A880
+ 3700  
+ 3710 .BITTC
+ 3720 LDAlbyte,X:AND#&4:BEQbittc
+ 3730 LDAlbyte,X:AND#&8:BNEswoff
+ 3740 LDArandy+&2:CMP#&8:BCSbittc
+ 3750 LDAlbyte,X:ORA#&8:STAlbyte,X
+ 3760 RTS
+ 3770 .swoff
+ 3780 LDArandy+&2:CMP#&10:BCSbittc
+ 3790 LDAlbyte,X:AND#&F7:STAlbyte,X
+ 3800 .bittc RTS
+ 3810  
+ 3820 .BITTD
+ 3830 LDAlbyte,X:AND#&10:BEQbittd
+ 3840 LDArandy+&1:CMP#&10:BCSbittd
+ 3850 LDAdepth,X:CMP#&40:BCSbittd
+ 3860 JSRSPACE:BCCreelx:LDYvdurs
+ 3870 LDA#21:STAiship,X
+ 3880 LDAxship,Y:STAxship,X
+ 3890 LDAyship,Y:STAyship,X
+ 3900 LDAzship,Y:STAzship,X
+ 3910 LDAcurrx,Y:STAcurrx,X
+ 3920 LDAcurry,Y:STAcurry,X
+ 3930 LDAcurrz,Y:STAcurrz,X
+ 3940 TYA:STAlbyte,X
+ 3950 LDA#&C0:STAhbyte,X
+ 3960 LDAlbyte,Y:AND#&EF:STAlbyte,Y
+ 3970 LDA#31:JSRNOISE
+ 3980 LDAvapor:BPLreelx
+ 3990 LDA#&C:STAvapor
+ 4000 .reelx
+ 4010 LDXvdurs
+ 4020 .bittd RTS
+ 4030  
+ 4040 .BITTE
+ 4050 LDAlbyte,X:BPLbitte
+ 4060 LDArandy+&1:BNEbitte
+ 4070 JSRSPACE:BCCreelx:LDYvdurs
+ 4080 LDAxship,Y:STAxship,X
+ 4090 LDAyship,Y:STAyship,X
+ 4100 LDAzship,Y:STAzship,X
+ 4110 LDXvdurs
+ 4120 .bitte RTS
+ 4130  
+ 4140 .REPLI
+ 4150 LDXvdurs
+ 4160 JSRSLIDE
+ 4170 BITsteal:BPLrepli
+ 4180 LDArandy+&3:CMP#&8:BCSrepli
+ 4190 LDAlbyte,X:BPLtrail
+ 4200 LDAdepth,X:CMP#&60:BCSrepli
+ 4210 LDArandy+&1:CMP#&C8:BCCrepli
+ 4220 JMPVISIB
+ 4230 .trail
+ 4240 LDArandy+&2:CMP#&20:BCSrepli
+ 4250 LDArandy+&1:CMP#&C0:BCCrepli
+ 4260 JSRSPACE:BCCrepli
+ 4270 LDYvdurs
+ 4280 LDAxship,Y:STAxship,X
+ 4290 LDAyship,Y:STAyship,X
+ 4300 LDAzship,Y:STAzship,X
+ 4310 LDA#&12:STAiship,X
+ 4320 .repli RTS
+ 4330  
+ 4340 .DEBRI
+ 4350 LDXvdurs
+ 4360 LDAiship,X:CMP#&10:BNErubit
+ 4370 INCcurrx,X:LDAcurrx,X
+ 4380 AND#funcs:STAcurrx,X:RTS
+ 4390 .rubit
+ 4400 INCcurry,X:LDAcurry,X
+ 4410 AND#funcs:STAcurry,X
+ 4420 INCcurrz,X:LDAcurrz,X
+ 4430 AND#funcs:STAcurrz,X
+ 4440 LDAlbyte,X:BPLdebri
+ 4450 DEChbyte,X:BNEdebri:STAiship,X
+ 4460 .debri RTS
+ 4470  
+ 4480 .MARKR
+ 4490 LDXvdurs
+ 4500 LDAcurry,X:CLC:ADC#&3
+ 4510 AND#funcs:STAcurry,X:RTS
+ 4520  
+ 4530 .TERPS
+ 4540 LDXvdurs
+ 4550 JSRSLIDE
+ 4560 JSRSPEED
+ 4570 JSRSPEED
+ 4580 LDAxship,X:STAtempa
+ 4590 LDAyship,X:STAtempx
+ 4600 LDAzship,X:STAtempy
+ 4610 LDAhbyte,X:BMIhitme
+ 4620 LDYlbyte,X
+ 4630 LDAxship,Y:STAtempz
+ 4640 LDAyship,Y:STAindir
+ 4650 LDAzship,Y:STAindir+&1
+ 4660 JMPWAYYS
+ 4670 .hitme
+ 4680 STZtempz:STZindir:STZindir+&1
+ 4690 JMPWAYYS
+ 4700  
+ 4710 .SLIDE
+ 4720 STZxpont:STZypont
+ 4730 STZarchi:STZarchi+&1:STZarchi+&2
+ 4740 LDY#&40:STYzpont
+ 4750 LDYcurrx,X:STYtwisx
+ 4760 LDYcurry,X:STYtwisy
+ 4770 LDYcurrz,X:STYtwisz
+ 4780 JSRSWIVL
+ 4790 BITxpont
+ 4800 ]PROChigher(archi):[OPTA%
+ 4810 ASLxpont:ROLarchi
+ 4820 ASLxpont:ROLarchi
+ 4830 BITypont
+ 4840 ]PROChigher(archi+&1):[OPTA%
+ 4850 ASLypont:ROLarchi+&1
+ 4860 ASLypont:ROLarchi+&1
+ 4870 BITzpont
+ 4880 ]PROChigher(archi+&2):[OPTA%
+ 4890 ASLzpont:ROLarchi+&2
+ 4900 ASLzpont:ROLarchi+&2
+ 4910 LDXvdurs
+ 4920  
+ 4930 .SPEED
+ 4940 LDAxpont:CLC
+ 4950 ADCxshil,X:STAxshil,X
+ 4960 LDAarchi:ADCxship,X:STAxship,X
+ 4970 EOR#&80:CMP#&8:BCCtedge
+ 4980 CMP#&F8:BCStedge+&2
+ 4990 LDAypont
+ 5000 ADCyshil,X:STAyshil,X
+ 5010 LDAarchi+&1:ADCyship,X:STAyship,X
+ 5020 EOR#&80:CMP#&8:BCCtedge
+ 5030 CMP#&F8:BCStedge+&2
+ 5040 LDAzpont
+ 5050 ADCzshil,X:STAzshil,X
+ 5060 LDAarchi+&2:ADCzship,X:STAzship,X
+ 5070 EOR#&80:CMP#&8:BCCtedge
+ 5080 CMP#&F8:BCStedge+&2:RTS
+ 5090 .tedge
+ 5100 LDA#&FF:STAiship,X:RTS
+ 5110  
+ 5120 .WAYYS
+ 5130 LDAtempa:EOR#&80:TAY
+ 5140 LDAtempx:EOR#&80:STAtempx
+ 5150 LDAtempy:EOR#&80:STAtempy
+ 5160 LDAtempz:EOR#&80:STAtempz
+ 5170 LDAindir:EOR#&80:STAindir
+ 5180 LDAindir+&1:EOR#&80:STAindir+&1
+ 5190 LDA#&0:CPYtempz:ROLA
+ 5200 LDYtempx:CPYindir:ROLA
+ 5210 LDYtempy:CPYindir+&1:ROLA:TAY
+ 5220 LDAcurrx,X:CMPwayyx,Y:BEQnoxxx
+ 5230 INCcurrx,X:BCCnoxxx
+ 5240 DECcurrx,X:DECcurrx,X
+ 5250 .noxxx
+ 5260 LDAcurry,X:CMPwayyy,Y:BEQnoyyy
+ 5270 INCcurry,X:BCCnoyyy
+ 5280 DECcurry,X:DECcurry,X
+ 5290 .noyyy
+ 5300 LDAcurrz,X:BEQnozzz
+ 5310 DECcurrz,X
+ 5320 .nozzz RTS
+ 5330  
+ 5340 .wayyx
+ 5350 EQUB32:EQUB0:EQUB32:EQUB0
+ 5360 EQUB32:EQUB0:EQUB32:EQUB0
+ 5370  
+ 5380 .wayyy
+ 5390 EQUB36:EQUB26:EQUB36:EQUB26
+ 5400 EQUB26:EQUB36:EQUB26:EQUB36
+ 5410  
+ 5420 .F
+ 5430 BITtarge:BMIbulls
+ 5440 LDAbuffr+&1D:BEQbulls
+ 5450 LDA#29:JSRNOISE
+ 5460 LDX#&F
+ 5470 .fishs
+ 5480 LDAiship,X:CMP#21:BNEntorp
+ 5490 LDAhbyte,X:BPLntorp
+ 5500 AND#&40:BEQexplo
+ 5510 LDAhbyte,X:AND#&3F:STAhbyte,X
+ 5520 LDAlbyte,X:ASLA:ASLA:ASLA:ASLA
+ 5530 STAtempa:LDAlbyte,X:AND#&F
+ 5540 ORAtempa:STAlbyte,X
+ 5550 .ntorp
+ 5560 DEX:BNEfishs
+ 5570 .bulls RTS
+ 5580 .explo
+ 5590 JSRFLASH:LDA#24:JMPNOISE
+ 5600  
+ 5610 .G
+ 5620 LDAbuffr+&2D:BEQbulls
+ 5630 LDAbuffr+&10:BEQstrip
+ 5640 LDAwings:BNEbulls:INCwings
+ 5650 LDAdials+&4:CMP#&40:BCCslugs
+ 5660 LDAsmine:BEQslugs:DECsmine
+ 5670 LDA#18:JSRNOISE
+ 5680 STZxship,X:STZlbyte,X
+ 5690 LDA#&FC:STAyship,X
+ 5700 LDA#&F4:STAzship,X:STAdepth,X
+ 5710 LDA#22:STAiship,X
+ 5720 RTS
+ 5730 .slugs
+ 5740 LDA#&1:JMPNOISE
+ 5750 .strip
+ 5760 LDAbuffr+&11:BEQlight
+ 5770 LDAwings:BNEbulls:INCwings
+ 5780 BITchaff:BMIslugs:DECchaff
+ 5790 LDA#21:JSRNOISE
+ 5800 JSRSPACE:BCCtowel
+ 5810 LDA#&3:STAtempa
+ 5820 .fours
+ 5830 JSRSPACE:BCCretun
+ 5840 LDAtempa:ASLA:ASLA:ASLA
+ 5850 SEC:SBC#&10:STAxship,X
+ 5860 LDA#&4:STAyship,X
+ 5870 LDA#&F8:STAzship,X
+ 5880 LDA#&FF
+ 5890 STAdepth,X:STAhbyte,X
+ 5900 LDA#24:STAiship,X
+ 5910 LDA#&80:STAlbyte,X
+ 5920 DECtempa:BPLfours
+ 5930 .towel RTS
+ 5940 .withd
+ 5950 STAwings:RTS
+ 5960 .light
+ 5970 LDAbuffr+&12:BEQwithd
+ 5980 LDAwings:BNEretun:INCwings
+ 5990 LDAmagns:BEQslugs:DECmagns
+ 6000 LDA#19:JSRNOISE
+ 6010 JSRSPACE:BCCretun
+ 6020 LDA#&4:STAyship,X
+ 6030 LDA#&F8:STAzship,X
+ 6040 LDA#&0:STAxship,X
+ 6050 DEA:STAdepth,X
+ 6060 LDA#23:STAiship,X
+ 6070 LDA#&80:STAlbyte,X:STAhbyte,X
+ 6080 .retun RTS
+ 6090  
+ 6100 .H
+ 6110 LDA#&8:BITmmodl:BMIlimit:ASLA
+ 6120 .limit
+ 6130 STAtempa
+ 6140 LDX#&F
+ 6150 .prove
+ 6160 LDAiship,X:BMIblind
+ 6170 SEC:SBC#21:CMP#&2:BCSblind
+ 6180 JSRCOLID
+ 6190 .blind
+ 6200 DEX:BNEprove:RTS
+ 6210  
+ 6220 .COLID
+ 6230 LDY#&F
+ 6240 .subcr
+ 6250 LDAiship,Y:BMIjusts
+ 6260 SEC:SBC#21:CMP#&2:BCCjusts
+ 6270 LDAxship,X:SEC:SBCxship,Y
+ 6280 ]PROCnegate:[OPTA%
+ 6290 CMPtempa:BCSjusts
+ 6300 LDAyship,X:SEC:SBCyship,Y
+ 6310 ]PROCnegate:[OPTA%
+ 6320 CMPtempa:BCSjusts
+ 6330 LDAzship,X:SEC:SBCzship,Y
+ 6340 ]PROCnegate:[OPTA%
+ 6350 CMPtempa:BCSjusts
+ 6360 LDAiship,X
+ 6370 CMP#21:BEQtorps
+ 6380 CMP#22:BEQblows
+ 6390 .justs
+ 6400 DEY:BNEsubcr:RTS
+ 6410 .torps
+ 6420 LDAhbyte,X:BMIjusts
+ 6430 .blows
+ 6440 PLA:PLA
+ 6450 LDA#&FF:STAiship,X:STAiship,Y
+ 6460 LDA#30:JSRNOISE:JMPFLASH
+ 6470  
+ 6480 .I
+ 6490 LDXstate:LDAcompr,X
+ 6500 CMPrandy+&3:BCSforge
+ 6510 JSRADDUP
+ 6520 LDXstate:LDAtempa
+ 6530 CMPallow,X:BCSforge
+ 6540 JSRGENER
+ 6550 .forge
+ 6560 LDArandy:CMP#&20:BCSnrepl
+ 6570 AND#&7:TAY
+ 6580 LDAtempx:CMP#&3:BCSnrepl
+ 6590 LDAgalax:CMPlevel,Y:BCCnrepl
+ 6600 JSRSPACE:BCCnrepl
+ 6610 LDAcants,Y:STAiship,X
+ 6620 LDAbashs,Y:STAkills,X
+ 6630 LDArandy+&1:STAxship,X
+ 6640 LDArandy+&2:STAyship,X
+ 6650 LDArandy+&3:STAlbyte,X
+ 6660 LDA#&70:STAzship,X:STAdepth,X
+ 6670 .nrepl RTS
+ 6680  
+ 6690 .compr EQUD&C060400E
+ 6700 .allow EQUD&02020304
+ 6710 .level EQUD&040A0604:EQUD&106154D0
+ 6720 .cants EQUD&191A1B1C:EQUD&1E1D191D
+ 6730 .bashs EQUD&05020102:EQUD&10080901
+ 6740  
+ 6750 .VISIB
+ 6760 LDAzship,X:BMInfire
+ 6770 LDAopton:CMP#&6:BNEnfire
+ 6780 JSRCENTR
+ 6790 LDAxship,X:ASLA:LDA#&0
+ 6800 STAstrax:STAstrax+&1
+ 6810 STAstray:STAstray+&1
+ 6820 STAendey+&1
+ 6830 ROLA:TAY
+ 6840 LDAxlime,Y:STAendex
+ 6850 LDAxlime+&1,Y:STAendex+&1
+ 6860 LDAyship,X:AND#&1:TAY
+ 6870 LDAylime,Y:STAendey
+ 6880 JSRPENCL
+ 6890 LDXvdurs
+ 6900 .nfire
+ 6910 BITrandy+&2:BVCvisib
+ 6920 LDAzship,X:ASLA:ROLA:AND#&1
+ 6930 TAX:JSRDPLET:LDXvdurs
+ 6940 .visib RTS
+ 6950  
+ 6960 .xlime EQUW&FF
+ 6970 .ylime EQUW&BF
+ 6980  
+ 6990 .J
+ 7000 LDApickd:BEQnowts
+ 7010 JSRSPACE:BCCnowts+&1
+ 7020 LDApickd:STAlbyte,X
+ 7030 STZhbyte,X:STZxship,X
+ 7040 STZcurry,X:STZcurrz,X
+ 7050 LDA#21:STAiship,X
+ 7060 LDA#&8:STAyship,X:STAcurrx,X
+ 7070 LDA#&2:STAzship,X
+ 7080 SEC:RTS
+ 7090 .nowts
+ 7100 CLC:RTS
+ 7110  
+ 7120 .K
+ 7130 LDA#&FF:STApickd
+ 7140 LDX#&F
+ 7150 .warns
+ 7160 LDAiship,X:CMP#&10:BCSrevel
+ 7170 LDAdepth,X:CMPpickd
+ 7180 BCSrevel:STXpickd
+ 7190 .revel
+ 7200 DEX:BNEwarns
+ 7210 LDApickd:BPLfools:STXpickd
+ 7220 .fools RTS
+ 7230  
+ 7240 .L
+ 7250 LDXpickd:BEQfools
+ 7260 LDAlbyte,X:AND#&2:LSRA:TAX
+ 7270 LDAchars,X:STAasked+&3
+ 7280 LDX#asked AND255:LDY#asked DIV256
+ 7290 LDA#&4:JMPPRYNT
+ 7300  
+ 7310 .chars EQUS"FH"
+ 7320 .asked EQUD&10021F
+ 7330  
+ 7340 ]:NEXT:END
+ 7350  
+ 7360 DEFPROChigher(addr%)
+ 7370 [OPTA%
+ 7380 BPLP%+&4:DECaddr%
+ 7390 ]
+ 7400 ENDPROC
+ 7410  
+ 7420 DEFPROCnegate
+ 7430 [OPTA%
+ 7440 BPLP%+&9:STAnegag
+ 7450 LDA#&0:SEC:SBCnegag
+ 7460 ]
+ 7470 ENDPROC
+ 7480  
+

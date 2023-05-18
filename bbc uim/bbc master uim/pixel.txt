@@ -1,0 +1,367 @@
+   10 REM >PIXEL
+   20 *K.0MO.7|MVDU14|ML.2720,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~O%,~P%|M
+   60 *K.4PROCsaves|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 PROCenvelopes
+  100 plans=&8
+  110 distn=&18
+  120 squar=&50
+  130 origx=&60
+  140 origy=&62
+  150 circl=&68
+  160 radii=&6A
+  170 resid=&6B
+  180 steps=&6C
+  190 addrr=&6D
+  200 arcof=&6F
+  210 tempa=&70
+  220 tempx=&71
+  230 tempy=&72
+  240 tempz=&73
+  250 noise=&78
+  260 prodt=&85
+  270 mcand=&89
+  280 mplir=&8B
+  290 strax=&90
+  300 stray=&92
+  310 endex=&94
+  320 endey=&96
+  330 diffx=&98
+  340 diffy=&9A
+  350 count=&9C
+  360 axxis=&9E
+  370 ayyis=&9F
+  380 dumpc=&100
+  390 ships=&A0D
+  400 sixtn=&A10
+  410 jubox=&A57
+  420 SMULT=&B795
+  430 ROOTS=&B798
+  440 OSO=&FFF1
+  450 OSB=&FFF4
+  460 FORA%=4TO6STEP2
+  470 O%=&5800
+  480 P%=&9800
+  490 [OPTA%
+  500 .CIRCL JMPA
+  510 .PENCL JMPB
+  520 .NOISE JMPC
+  530 .CONVR JMPD
+  540 .DELAY JMPE
+  550 .TEGER JMPF
+  560  
+  570 .A
+  580 LDX#15:STXarcof:INX:STXradii
+  590 ]PROCradius(86):[OPTA%
+  600 STZaddrr:STZaddrr+&1
+  610 JSRSMULT
+  620 LDAprodt:STAcircl
+  630 LDAprodt+&1:STAcircl+&1
+  640 .loopa
+  650 LDAaddrr+&1:STAmcand:STAprodt
+  660 JSRSMULT
+  670 LDAcircl:SEC:SBCprodt:STAsquar
+  680 LDAcircl+&1:SBCprodt+&1
+  690 STAsquar+&1
+  700 JSRROOTS
+  710 LDAradii:ASLA:ASLA:TAX
+  720 LDAaddrr:ADCresid:STAaddrr
+  730 LDAaddrr+&1:STAdumpc,X
+  740 ADCsteps:STAaddrr+&1
+  750 LDAsquar:STAdumpc+&2,X
+  760 DECradii:BPLloopa
+  770 .draws
+  780 LDA#&3:STAtempx
+  790 .cornr
+  800 LDAarcof:STAtempa
+  810 .point
+  820 LDY#&0
+  830 LDAtempa:ASLA:ASLA:TAX
+  840 LDAdumpc,X:STAstrax
+  850 STZstrax+&1
+  860 LDAdumpc+&2,X:STAstray
+  870 STZstray+&1
+  880 LDAdumpc+&4,X:STAendex
+  890 STZendex+&1
+  900 LDAdumpc+&6,X:STAendey
+  910 STZendey+&1
+  920 LDXtempx
+  930 LDAflagx,X:BEQnxcor
+  940 TYA:SEC:SBCstrax:STAstrax
+  950 TYA:SBCstrax+&1:STAstrax+&1
+  960 TYA:SEC:SBCendex:STAendex
+  970 TYA:SBCendex+&1:STAendex+&1
+  980 .nxcor
+  990 LDAflagy,X:BEQnycor
+ 1000 TYA:SEC:SBCstray:STAstray
+ 1010 TYA:SBCstray+&1:STAstray+&1
+ 1020 TYA:SEC:SBCendey:STAendey
+ 1030 TYA:SBCendey+&1:STAendey+&1
+ 1040 .nycor
+ 1050 JSR B
+ 1060 DECtempa:BPLpoint
+ 1070 DECtempx:BPLcornr
+ 1080 .refig RTS
+ 1090  
+ 1100 .flagx EQUW&FF00:EQUB&00
+ 1110 .flagy EQUD&FFFF
+ 1120  
+ 1130 .B
+ 1140 LDAstrax:CLC:ADCorigx:STAstrax
+ 1150 LDAstrax+&1:ADCorigx+&1
+ 1160 STAstrax+&1
+ 1170 LDAendex:CLC:ADCorigx:STAendex
+ 1180 LDAendex+&1:ADCorigx+&1
+ 1190 STAendex+&1
+ 1200 LDAstray:CLC:ADCorigy:STAstray
+ 1210 LDAstray+&1:ADCorigy+&1
+ 1220 STAstray+&1
+ 1230 LDAendey:CLC:ADCorigy:STAendey
+ 1240 LDAendey+&1:ADCorigy+&1
+ 1250 STAendey+&1
+ 1260 LDX#&0
+ 1270 LDAendex:SEC:SBCstrax:STAdiffx
+ 1280 LDAendex+&1:SBCstrax+&1
+ 1290 BVCnoova:RORA
+ 1300 .noova
+ 1310 BPLcaldy
+ 1320 LDYstrax+&1:LDAendex+&1
+ 1330 STAstrax+&1:STYendex+&1
+ 1340 LDYstray:LDAendey
+ 1350 STAstray:STYendey
+ 1360 LDYstray+&1:LDAendey+&1
+ 1370 STAstray+&1:STYendey+&1
+ 1380 LDAstrax:LDYendex
+ 1390 STYstrax:STAendex
+ 1400 SEC:SBCstrax:STAdiffx
+ 1410 .caldy
+ 1420 LDAendey:SEC:SBCstray:STAdiffy
+ 1430 LDAendey+&1:SBCstray+&1
+ 1440 BVCnoovb:RORA
+ 1450 .noovb
+ 1460 BPLdypos:TXA
+ 1470 SEC:SBCdiffy:STAdiffy:DEX
+ 1480 .dypos
+ 1490 STXsteps
+ 1500 LDAdiffy:CMPdiffx
+ 1510 LDA#&0:ROLA:ROLA:STAaxxis:TAX
+ 1520 EOR#&2:STAayyis
+ 1530 LDAdiffx,X:LSRA:STAcount
+ 1540 .loops
+ 1550 LDAstrax+&1:ORAstray+&1
+ 1560 BNEinver:LDAstray:CMP#192
+ 1570 BCSinver:LSRA:LSRA:SEC
+ 1580 RORA:STAplans+&1
+ 1590 LDAstrax:AND#&F8:STAplans
+ 1600 LDAstrax:AND#&7:TAX
+ 1610 LDAstray:AND#&7:TAY
+ 1620 LDA(plans),Y:ORAbytes,X
+ 1630 STA(plans),Y
+ 1640 .inver
+ 1650 LDXaxxis
+ 1660 LDAstrax,X:CMPendex,X:BEQgreys
+ 1670 LDXayyis
+ 1680 LDAcount:SEC:SBCdiffx,X:STAcount
+ 1690 BCCincmp+&1:BEQincmp
+ 1700 DEX:BMIincty
+ 1710 INCstrax:BNEloops
+ 1720 INCstrax+&1:BRAloops
+ 1730 .incmp
+ 1740 CLC:LDXaxxis
+ 1750 ADCdiffx,X:STAcount
+ 1760 DEX:BPLincpx
+ 1770 LDA#&1:LDYsteps:BEQadden:TYA
+ 1780 .adden
+ 1790 CLC:ADCstray:STAstray
+ 1800 TYA:ADCstray+&1:STAstray+&1
+ 1810 INCstrax:BNEloops
+ 1820 INCstrax+&1:BRAloops
+ 1830 .incpx
+ 1840 INCstrax:BNEincty:INCstrax+&1
+ 1850 .incty
+ 1860 LDA#&1:LDYsteps:BEQaddpt:TYA
+ 1870 .addpt
+ 1880 CLC:ADCstray:STAstray
+ 1890 TYA:ADCstray+&1:STAstray+&1
+ 1900 JMPloops
+ 1910 .greys RTS
+ 1920  
+ 1930 .bytes
+ 1940 EQUD&10204080:EQUD&1020408
+ 1950  
+ 1960 .C
+ 1970 BITships:BMIalway
+ 1980 BITjubox:BPLgreys
+ 1990 .alway
+ 2000 LDXnoise:BNEgreys
+ 2010 ASLA:ASLA:ASLA
+ 2020 ADC#value AND255:TAX
+ 2030 LDA#value DIV256:ADC#&0:TAY
+ 2040 LDA#&7:JMPOSO
+ 2050  
+ 2060 .value
+ 2070 \ short bleep
+ 2080 EQUW&11:EQUW-10:EQUW140:EQUW2
+ 2090 \ wrong sound
+ 2100 EQUW&11:EQUW-10:EQUW28:EQUW4
+ 2110 \ process #1
+ 2120 EQUW&10:EQUW1:EQUW4:EQUW8
+ 2130 \ process #2
+ 2140 EQUW&11:EQUW2:EQUW0:EQUW8
+ 2150 \ process #3
+ 2160 EQUW&12:EQUW3:EQUW40:EQUW8
+ 2170 \ process #4
+ 2180 EQUW&13:EQUW4:EQUW128:EQUW8
+ 2190 \ destruction #A
+ 2200 EQUW&10:EQUW-15:EQUW7:EQUW100
+ 2210 \ destruction #B
+ 2220 EQUW&11:EQUW5:EQUW250:EQUW255
+ 2230 \ launch
+ 2240 EQUW&10:EQUW-8:EQUW4:EQUW48
+ 2250 \ splash down #A
+ 2260 EQUW&10:EQUW-15:EQUW7:EQUW28
+ 2270 \ splash down #B
+ 2280 EQUW&11:EQUW5:EQUW128:EQUW80
+ 2290 \ re-entry
+ 2300 EQUW&10:EQUW-2:EQUW6:EQUW10
+ 2310 \ thermosystem
+ 2320 EQUW&11:EQUW6:EQUW40:EQUW2
+ 2330 \ generator firing
+ 2340 EQUW&11:EQUW7:EQUW80:EQUW64
+ 2350 \ energy depletion
+ 2360 EQUW&10:EQUW6:EQUW4:EQUW4
+ 2370 \ shield depletion
+ 2380 EQUW&10:EQUW6:EQUW6:EQUW4
+ 2390 \ chameleon unit
+ 2400 EQUW&10:EQUW6:EQUW0:EQUW10
+ 2410 \ launch torpedo
+ 2420 EQUW&10:EQUW8:EQUW5:EQUW15
+ 2430 \ discharge sea mine
+ 2440 EQUW&13:EQUW8:EQUW3:EQUW10
+ 2450 \ discharge flare
+ 2460 EQUW&13:EQUW9:EQUW6:EQUW4
+ 2470 \ emp unit
+ 2480 EQUW&11:EQUW9:EQUW70:EQUW10
+ 2490 \ discharge chaff
+ 2500 EQUW&10:EQUW9:EQUW1:EQUW4
+ 2510 \ arm torpedo
+ 2520 EQUW&10:EQUW-10:EQUW1:EQUW3
+ 2530 \ extract torpedo
+ 2540 EQUW&10:EQUW-10:EQUW2:EQUW3
+ 2550 \ soft hit
+ 2560 EQUW&10:EQUW11:EQUW6:EQUW30
+ 2570 \ loud hit
+ 2580 EQUW&10:EQUW12:EQUW4:EQUW30
+ 2590 \ phasor
+ 2600 EQUW&10:EQUW10:EQUW6:EQUW40
+ 2610 \ stealth
+ 2620 EQUW&13:EQUW10:EQUW200:EQUW12
+ 2630 \ manipulator arm
+ 2640 EQUW&13:EQUW10:EQUW230:EQUW38
+ 2650 \ re-target system
+ 2660 EQUW&13:EQUW16:EQUW250:EQUW20
+ 2670 \ sea mine detonation
+ 2680 EQUW&13:EQUW13:EQUW90:EQUW10
+ 2690 \ opponent submarine firing
+ 2700 EQUW&13:EQUW14:EQUW80:EQUW1
+ 2710  
+ 2720 .D
+ 2730 LDY#&0
+ 2740 STZtempa:STZtempx:BRAregin
+ 2750 .subbo
+ 2760 STAtempy:STZtempz
+ 2770 ASLtempa:ROLtempx:BMIabort
+ 2780 LDAtempy:ADCtempa:STAtempy
+ 2790 LDAtempz:ADCtempx:STAtempz
+ 2800 BMIabort
+ 2810 ASLtempa:ROLtempx:BMIabort
+ 2820 ASLtempa:ROLtempx:BMIabort
+ 2830 LDAtempa:ADCtempy:STAtempa
+ 2840 LDAtempx:ADCtempz:STAtempx
+ 2850 BVSabort
+ 2860 .regin
+ 2870 LDAsixtn,Y:BEQsuced:INY
+ 2880 SEC:SBC#&30
+ 2890 CMP#&A:BCCsubbo
+ 2900 LDA#&F:RTS
+ 2910 .abort
+ 2920 LDA#&E:RTS
+ 2930 .suced
+ 2940 LDAtempx:BNEabort
+ 2950 LDAtempa:BEQsilly:LDA#&0:RTS
+ 2960 .silly
+ 2970 LDA#&D:RTS
+ 2980  
+ 2990 .E
+ 3000 PHX:LDA#19:JSROSB
+ 3010 PLX:DEX:BNE E:RTS
+ 3020  
+ 3030 .F
+ 3040 LDAmcand:TAX:BPLposit
+ 3050 LDA#&0:SEC:SBCmcand:STAmcand
+ 3060 .posit
+ 3070 LDA#&0
+ 3080 ASLmplir:ASLmplir
+ 3090 BCCclear:LDAmcand
+ 3100 .clear
+ 3110 STAprodt:LDA#&0
+ 3120 ]PROCexpand:[OPTA%
+ 3130 CLC:ADCprodt:STAprodt
+ 3140 LDA#&0:ROLA:STAprodt+&1
+ 3150 .claps
+ 3160 TXA:BPLquits
+ 3170 LDA#&0:SEC:SBCprodt:STAprodt
+ 3180 LDA#&0:SBCprodt+&1:STAprodt+&1
+ 3190 .quits
+ 3200 LDAprodt:RTS
+ 3210  
+ 3220 ]:NEXT:END
+ 3230  
+ 3240 DEFPROCenvelopes
+ 3250 ENVELOPE1,4,1,-1,0,1,1,10,10,0,0,0,10,0
+ 3260 ENVELOPE2,2,0,1,-1,10,12,10,7,0,0,0,30,5
+ 3270 ENVELOPE3,2,2,-2,2,2,4,8,25,0,0,0,30,5
+ 3280 ENVELOPE4,2,2,-2,2,2,4,2,15,-1,0,0,30,5
+ 3290 ENVELOPE5,3,-5,-2,-1,10,15,255,0,0,0,0,0,0
+ 3300 ENVELOPE6,4,8,-16,8,16,16,16,100,-1,0,-4,100,5
+ 3310 ENVELOPE7,1,4,5,-5,7,20,28,95,-1,-1,-1,95,45
+ 3320 ENVELOPE8,1,0,0,0,5,12,9,25,-1,-1,-1,100,60
+ 3330 ENVELOPE9,2,1,1,0,5,10,40,30,-10,-10,-15,127,0
+ 3340 ENVELOPE10,3,-1,0,1,25,2,-2,110,0,-4,-8,110,82
+ 3350 ENVELOPE11,1,0,0,0,0,100,100,90,-1,0,-1,90,0
+ 3360 ENVELOPE12,1,0,0,0,8,8,8,126,-1,0,0,126,0
+ 3370 ENVELOPE13,1,1,-2,-2,1,10,9,127,-1,-1,-1,127,27
+ 3380 ENVELOPE14,1,30,-12,-32,5,1,1,120,-3,-3,-3,110,30
+ 3390 ENVELOPE15,131,0,0,0,25,2,-2,100,-9,-4,-8,110,10
+ 3400 ENVELOPE16,4,1,-1,1,1,1,1,126,-10,0,-20,126,100
+ 3410 ENDPROC
+ 3420  
+ 3430 DEFPROCradius(actl%)
+ 3440 [OPTA%
+ 3450 LDA#actl%:STAmcand:STAprodt
+ 3460 LDA#(actl% DIV16):STAsteps
+ 3470 LDA#(actl% AND15)*16:STAresid
+ 3480 ]
+ 3490 ENDPROC
+ 3500  
+ 3510 DEFPROCexpand
+ 3520 FORJ%=1TO5
+ 3530 [OPTA%
+ 3540 LSRmcand:RORprodt+&2
+ 3550 ASLmplir:BCCP%+&6
+ 3560 ASLprodt+&2:ADCmcand
+ 3570 ]:NEXT
+ 3580 ENDPROC
+ 3590  
+ 3600 DEFPROCsaves
+ 3610 *SRLOAD :1.UIM-4 8000 7
+ 3620 *SRLOAD :1.UIM-5 A000 7
+ 3630 *SRWRITE 5800 +0400 9800 7
+ 3640 *THREE
+ 3650 ENDPROC
+ 3660  
+

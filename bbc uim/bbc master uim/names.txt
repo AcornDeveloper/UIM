@@ -1,0 +1,129 @@
+   10 REM >NAMES
+   20 *K.0MO.7|MVDU14|ML.810,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~O%,~P%|M
+   60 *K.4PROCsaves|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 HIMEM=&5800
+  100 tempa=&70
+  110 tempx=&71
+  120 tempy=&72
+  130 tempz=&73
+  140 piccy=&7D
+  150 dotno=&7F
+  160 mosky=&EC
+  170 sixtn=&A10
+  180 buffr=&AD0
+  190 CHART=&AB00
+  200  
+  210 ctrls=&FE
+  220 shift=&FF
+  230  
+  240 OSW=&FFEE
+  250 OSO=&FFF1
+  260 OSB=&FFF4
+  270 FORA%=4TO6STEP2
+  280 O%=&5800
+  290 P%=&B580
+  300 [OPTA%
+  310 .NAMES JMPA
+  320 .BUFFR JMPB
+  330  
+  340 .names
+  350 EQUS"nareteatoxcierjt"
+  360 EQUS"ireestiloerkoeds"
+  370 EQUS"aswertfuopleeadi"
+  380 EQUS"leaanaserrhuertq"
+  390 EQUS"boodertyaleposti"
+  400 EQUS"ckleiopwwetullca"
+  410 EQUS"quiredyffzertxer"
+  420 EQUS"orwedoliretacluh"
+  430 EQUS"aqquefuiblouvqwg"
+  440 EQUS"luewzoneaswleytu"
+  450 EQUS"karpowntsgetchea"
+  460 EQUS"quinefferhicmide"
+  470 EQUS"raterimemoveryii"
+  480 EQUS"llogjipewxeevilu"
+  490 EQUS"noybwyaiilasawvc"
+  500 EQUS"leteystemgilfump"
+  510 .pefix
+  520 EQUS"raa-ell-tra-bar-"
+  530 EQUS"fli-clu-mae-quo-"
+  540 .keytb
+  550 ]O%=O%+&2C:P%=P%+&2C:[OPTA%
+  560 .endan
+  570  
+  580 .A
+  590 LDY#&0:STYpiccy+&1
+  600 STAdotno:ASLA:ROLpiccy+&1:ASLA
+  610 ROLpiccy+&1:STApiccy
+  620 LDApiccy+&1:ADC#CHART DIV256
+  630 STApiccy+&1
+  640 LDA(piccy),Y:AND#&E0:BNEnpref
+  650 LDA(piccy),Y:AND#&7:ASLA:ASLA:TAX
+  660 .fancy
+  670 LDApefix,X:STAsixtn+&10,Y
+  680 INX:INY:CPY#&4:BCCfancy
+  690 .npref
+  700 PHY:LDXdotno
+  710 LDY#&1:LDA(piccy),Y:AND#&7
+  720 CMP#&2:BCSexcit:ADC#&2
+  730 .excit
+  740 STApiccy:PLY
+  750 .strin
+  760 LDAnames,X:STAsixtn+&10,Y
+  770 INX:INY:DECpiccy:BPLstrin
+  780 LDA#&0:STAsixtn+&10,Y
+  790 LDAsixtn+&10:AND#&5F
+  800 STAsixtn+&10:RTS
+  810  
+  820 .B
+  830 LDX#&2B
+  840 STZbuffr+&2C:STZbuffr+&2D
+  850 .seads
+  860 STZbuffr,X
+  870 LDAmosky:CMPkeytb,X
+  880 BNEtiger:DECbuffr,X
+  890 .tiger
+  900 LDAmosky+&1:CMPkeytb,X
+  910 BNEchair:DECbuffr,X
+  920 .chair
+  930 DEX:BPLseads
+  940 LDA#129:TAY:LDX#shift:JSROSB
+  950 TYA:BPLlasts:DECbuffr+&2C
+  960 .lasts
+  970 LDA#129:TAY:LDX#ctrls:JSROSB
+  980 TYA:BPLexits:DECbuffr+&2D
+  990 .exits RTS
+ 1000  
+ 1010 ]:NEXT
+ 1020 RESTORE 1100
+ 1030 FORX%=1TO endan-keytb
+ 1040 READ K%
+ 1050 L%=ABS(K%OR&FFFFFF00)-1+128
+ 1060 X%?((keytb-&B580)+&57FF)=L%
+ 1070 NEXT
+ 1080 END
+ 1090  
+ 1100 DATA&CF,&CE,&EE,&ED:REM1 2 3 4
+ 1110 DATA&EC,&CB,&DB,&EA:REM5 6 7 8
+ 1120 DATA&98,&BA,&DF,&8E:REM. J f0 f1
+ 1130 DATA&8D,&8C,&EB,&8B:REMf2 f3 f4 f5
+ 1140 DATA&8A,&E9,&89,&88:REMf6 f7 f8 f9
+ 1150 DATA&BC,&B9,&87,&D7:REMF K \ _
+ 1160 DATA&E6,&86,&C6,&D6:REM CURSOR
+ 1170 DATA&AB,&96,&AD,&AF:REMH CY C SL
+ 1180 DATA&EF,&DE,&AE,&DC:REMQ W S T
+ 1190 DATA&9F,&A6,&BF,&9D:REMTB DL CL SP
+ 1200 DATA&99,&B6,&AC,&9B:REM, RT G B
+ 1210  
+ 1220 DEFPROCsaves
+ 1230 *SRLOAD :1.UIM-4 8000 7
+ 1240 *SRLOAD :1.UIM-5 A000 7
+ 1250 *SRWRITE 5800 +200 B580 7
+ 1260 *THREE
+ 1270 ENDPROC
+ 1280  
+

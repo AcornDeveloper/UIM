@@ -1,0 +1,612 @@
+   10 REM >CTRLP
+   20 *K.0MO.7|MVDU14|ML.5320,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~O%,~P%|M
+   60 *K.4*SAVE :1.C.CODES 5800 +0780 3A80 3A80|M
+   70 *K.10O.|M*FX12,2|M
+   80 funcs=&3F
+   90 Q%=&80
+  100  
+  110 randy=&10
+  120 rolla=&1E
+  130 rollb=&1F
+  140 xsrot=&20
+  150 ysrot=&21
+  160 zsrot=&22
+  170 inrup=&2F
+  180 dials=&40
+  190 joyky=&65
+  200 tempa=&70
+  210 tempx=&71
+  220 tempy=&72
+  230 tempz=&73
+  240 indir=&74
+  250 stick=&79
+  260 piccy=&7D
+  270 dotno=&7F
+  280 dotnf=&80
+  290 dwork=&81
+  300 opton=&82
+  310 swram=&84
+  320 prodt=&85:quote=&85
+  330 mcand=&89:divnd=&89
+  340 mplir=&8B:divsr=&8B
+  350 vdurs=&8F
+  360 valve=&90
+  370 proft=&98
+  380 watch=&B0
+  390 flags=&B5
+  400 store=&B6
+  410 paper=&B7
+  420 jobbs=&B8
+  430 coins=&B9
+  440 silva=&BB
+  450 stops=&BC
+  460 eficn=&BD
+  470 oldrm=&F4
+  480 BRKVC=&202
+  490 ENTVC=&220
+  500 money=&A00
+  510 fract=&A04
+  520 presy=&A0C
+  530 buffr=&AD0
+  540 SETUP=&B03
+  550 CEPTR=&E06
+  560 DECIM=&4D83
+  570 addrs=&61D1
+  580 barrs=&6FE8
+  590 VIDEO=&7600
+  600 NOISE=&9806
+  610 DELAY=&980C
+  620 WORKS=&9C00
+  630 SHOWS=&AF03
+  640 CLEAN=&AF06
+  650 WHITE=&AF09
+  660 PRYNT=&AF0C
+  670 BOTLN=&AF1E
+  680 BUFFR=&B583
+  690 SHELA=&FE00
+  700 OSW=&FFEE
+  710 OSO=&FFF1
+  720 OSB=&FFF4
+  730 K%=4400
+  740  
+  750 FORA%=4TO6STEP2
+  760 O%=&5800
+  770 P%=&3A80
+  780 [OPTA%
+  790 .JOBBS JMPA
+  800 .FIVES JMPB
+  810 .DEVID JMPC
+  820 .MULTY JMPD
+  830 .RPORT JMPE
+  840 .MCODE JMPF
+  850 .RANDY JMPG
+  860 .ATUDE JMPH
+  870  
+  880 .A
+  890 JSRLARGE
+  900 JSRSELET
+  910 JSRWORKS
+  920 JSRVARIA
+  930 JSRNUMER
+  940 JSRSHOWS
+  950 LDXjobbs:LDAbinar,X:STAindir
+  960 STAindir:LDX#&2
+  970 .fours
+  980 LSRindir:BCCquiet
+  990 STXindir+&1:TXA
+ 1000 JSRNOISE
+ 1010 LDXindir+&1
+ 1020 .quiet
+ 1030 INX:CPX#&6:BCCfours
+ 1040 .ctrlp
+ 1050 JSRBUFFR
+ 1060 JSRADJUS
+ 1070 JSRWATCH
+ 1080 JSRCREDT
+ 1090 JSREFICN
+ 1100 JSRSILVA
+ 1110 JSRBARSS
+ 1120 JSRMACHN
+ 1130 BITstops:BMIctrlp
+ 1140 LDA#13:LDX#&5:JSROSB
+ 1150 LDA#15:LDX#&0:JSROSB
+ 1160 LDAproft:CLC:ADCmoney:TAX
+ 1170 LDAproft+&1:ADCmoney+&1
+ 1180 BCCnover:LDA#&FF:TAX
+ 1190 .nover
+ 1200 STXmoney:STAmoney+&1
+ 1210 .loota
+ 1220 JSRBUFFR:LDAbuffr+&27:BEQloota
+ 1230 LDA#&C:STAopton+&1:RTS
+ 1240  
+ 1250 .binar
+ 1260 EQUD&040C0603:EQUD&0A0F020B
+ 1270  
+ 1280 .LARGE
+ 1290 JSRCLEAN
+ 1300 JSRWHITE
+ 1310 JSRBOTLN
+ 1320 LDX#words AND255:LDY#words DIV256
+ 1330 LDA#EFICN-words:JSRPRYNT
+ 1340 LDY#&0
+ 1350 .prynt
+ 1360 LDArents,Y:STAtempa
+ 1370 LDArents+&1,Y:STAtempx:STZindir
+ 1390 LDA#&C1:STAindir+&1
+ 1400 INY:INY:STYvdurs:INY:LDX#&1D
+ 1410 JSRDECIM
+ 1420 LDYvdurs:CPY#&10
+ 1430 BCCprynt:RTS
+ 1440  
+ 1450 .words
+ 1460 EQUW&81F:EQUB0
+ 1470 EQUS"PROCESS CONTROL"
+ 1480 EQUW&11F:EQUB3
+ 1490 EQUS"1. Basalt Processor"
+ 1500 EQUW&11F:EQUB5
+ 1510 EQUS"2. Hydrocarbon Processor"
+ 1520 EQUW&11F:EQUB7
+ 1530 EQUS"3. Steel Production"
+ 1540 EQUW&11F:EQUB9
+ 1550 EQUS"4. Igneous Rock"
+ 1560 EQUW&11F:EQUB11
+ 1570 EQUS"5. Power Generation"
+ 1580 EQUW&11F:EQUB13
+ 1590 EQUS"6. Food Production"
+ 1600 EQUW&11F:EQUB15
+ 1610 EQUS"7. Amino Acids Synthesis"
+ 1620 EQUW&11F:EQUB17
+ 1630 EQUS"8. Silicon Production"
+ 1640  
+ 1650 .EFICN
+ 1660 LDAeficn:STAtempa
+ 1670 STZtempx:STZindir+&1
+ 1680 LDX#20:LDY#19:JSRDECIM
+ 1690 LDA#ASC"%":JSROSW
+ 1700 LDA#32:JMPOSW
+ 1710  
+ 1720 .SELET
+ 1730 LDApresy:BNEexits
+ 1740 LDY#&7
+ 1750 .cooks
+ 1760 LDAbuffr,Y:BEQinvis:STYjobbs
+ 1770 TYA:ASLA:TAY:SEC
+ 1780 LDAmoney:SBCrents,Y:TAX
+ 1790 LDAmoney+&1:SBCrents+&1,Y
+ 1800 BCClukar:STXmoney:STAmoney+&1
+ 1810 INCpresy
+ 1820 LDA#&0:JSRNOISE
+ 1830 LDX#50:JMPDELAY
+ 1840 .invis
+ 1850 DEY:BPLcooks
+ 1860 .exits
+ 1870 PLA:PLA:RTS
+ 1880  
+ 1890 .rents
+ 1900 EQUW125:EQUW265
+ 1910 EQUW550:EQUW250
+ 1920 EQUW1000:EQUW375
+ 1930 EQUW500:EQUW900
+ 1940  
+ 1950 .lukar
+ 1960 PLA:PLA
+ 1970 LDA#&1:JSRNOISE
+ 1980 LDA#&1:JSRRPORT
+ 1990 JSRSHOWS
+ 2000 LDX#50:JMPDELAY
+ 2010  
+ 2020 .ADJUS
+ 2030 LDXjobbs:LDYnumer,X
+ 2040 .acros
+ 2050 LDAbuffr,Y:BEQprest
+ 2060 LDAbuffr+&1B:BEQupper
+ 2070 LDAvalve,Y:SEC:SBC#&2
+ 2080 BCSmotor:LDA#&0:STAvalve,Y
+ 2090 .upper
+ 2100 LDAbuffr+&1A:BEQprest
+ 2110 LDAvalve,Y:CLC:ADC#&2
+ 2120 BCCmotor:LDA#&FF
+ 2130 .motor
+ 2140 STAvalve,Y
+ 2150 .prest
+ 2160 DEY:BPLacros:RTS
+ 2170  
+ 2180 .WATCH
+ 2190 LDX#watch AND255:LDY#watch DIV256
+ 2200 LDA#&3:JSROSO
+ 2210 LDAwatch+&1
+ 2220 ROLwatch:ROLA
+ 2230 ROLwatch:ROLA:STAwatch
+ 2240 LDA#&0:SEC:SBCwatch:STAsilva:RTS
+ 2250  
+ 2260 .times
+ 2270 EQUD&FFFFC100:EQUB&FF
+ 2280 .varia
+ 2290 EQUW&1E1F:EQUB5:EQUS"T"
+ 2300 EQUW&F1F:EQUB21:EQUS"Pft."
+ 2310 EQUW&F1F:EQUB19:EQUS"Eff."
+ 2320  
+ 2330 .VARIA
+ 2340 LDX#varia AND255:LDY#varia DIV256
+ 2350 LDA#VARIA-varia:JSRPRYNT
+ 2360 LDY#&FF
+ 2370 STYsilva:STYstops
+ 2380 INY:LDX#11
+ 2390 STYcoins:STYcoins+&1:STYeficn
+ 2400 .zeros
+ 2410 STYvalve,X:DEX:BPLzeros
+ 2420 LDX#times AND255:LDY#times DIV256
+ 2430 LDA#&4:JSROSO
+ 2440 LDA#EVENT AND255:STAENTVC
+ 2450 LDA#EVENT DIV256:STAENTVC+&1
+ 2460 LDA#14:LDX#&5:JMPOSB
+ 2470  
+ 2480 .EVENT
+ 2490 PHP:INCstops:PLP:RTS
+ 2500  
+ 2510 .label
+ 2520 EQUW&11F:EQUB22
+ 2530 EQUS"1 2 3 4 5 6 7 "
+ 2540  
+ 2550 .NUMER
+ 2560 LDXjobbs:LDAnumer,X
+ 2570 ASLA:ADC#&5
+ 2580 LDX#label AND255:LDY#label DIV256
+ 2590 JMPPRYNT
+ 2600  
+ 2610 .SILVA
+ 2620 LDAsilva:LSRA:STAtempa
+ 2630 LDA#addrs AND255:STAtempx
+ 2640 LDA#addrs DIV256:STAtempy
+ 2650 LDA#&FF
+ 2660 STAaddrs-&1
+ 2670 STAaddrs-&1+&140*16
+ 2680 LSRA:STAtempz
+ 2690 .loops
+ 2700 LDX#&81:LDAtempz
+ 2710 CMPtempa:BCSinter:LDX#&BD
+ 2720 .inter
+ 2730 TXA:STA(tempx):INCtempx
+ 2740 LDAtempx:AND#&7:BNEconts
+ 2750 LDAtempx:CLC:ADC#&38:STAtempx
+ 2760 LDAtempy:ADC#&1:STAtempy
+ 2770 .conts
+ 2780 DECtempz:BNEloops:RTS
+ 2790  
+ 2800 .numer
+ 2810 EQUD&3040303:EQUD&5060605
+ 2820 .table
+ 2830 EQUD&BDFF81BD
+ 2840  
+ 2850 .BARSS
+ 2860 LDYjobbs:LDXnumer,Y:LDY#&0
+ 2870 .posit
+ 2880 LDAvalve,X:STXindir
+ 2890 LSRA:LSRA:LSRA:STAtempa
+ 2900 TXA:ASLA:ASLA:ASLA:ASLA
+ 2910 ADC#barrs AND255:STAtempx
+ 2920 LDA#barrs DIV256:ADC#&0:STAtempy
+ 2930 LDA#31:STAtempz
+ 2940 LDA#&FF:BRAenter
+ 2950 .route
+ 2960 LDAtempz:BEQflash
+ 2970 CMPtempa:PHP:PLA
+ 2980 AND#&3:TAX:LDAtable,X
+ 2990 .enter
+ 3000 STA(tempx),Y
+ 3010 .flash
+ 3020 INCtempx:BNEincre:INCtempy
+ 3030 .incre
+ 3040 LDAtempx:AND#&7:BNEgoone
+ 3050 LDAtempx:CLC:ADC#&38:STAtempx
+ 3060 LDAtempy:ADC#&1:STAtempy
+ 3070 .goone
+ 3080 DECtempz:BPLroute
+ 3090 LDAtempx:SEC:SBC#&39:STAtempx
+ 3100 LDAtempy:SBC#&1:STAtempy
+ 3110 LDA#&FF:STA(tempx),Y
+ 3120 LDXindir:DEX:BPLposit
+ 3130 .retun RTS
+ 3140  
+ 3150 .machn
+ 3160 EQUW&4FC
+ 3170 .toler
+ 3180 EQUD&10110F12:EQUD&100C1011
+ 3190 .margn
+ 3200 EQUW&FFFF*(225/K%)
+ 3210 EQUW&FFFF*(450/K%)
+ 3220 EQUW&FFFF*(900/K%)
+ 3230 EQUW&FFFF*(413/K%)
+ 3240 EQUW&FFFF*(1650/K%)
+ 3250 EQUW&FFFF*(615/K%)
+ 3260 EQUW&FFFF*(825/K%)
+ 3270 EQUW&FFFF*(980/K%)
+ 3280 .adjus
+ 3290 EQUD&B6664280:EQUD0
+ 3300 EQUD&C07878A0:EQUD0
+ 3310 EQUD&7890CA30:EQUD&C0
+ 3320 EQUD&C8D0846C:EQUD0
+ 3330 EQUD&44744080:EQUD&C0A6
+ 3340 EQUD&34784CB0:EQUD&84C09C
+ 3350 EQUD&40287064:EQUD&A4465C
+ 3360 EQUD&A490A0C4:EQUD&2748
+ 3370 .point
+ 3380 EQUD&20121E1F:EQUD&120C0B08
+ 3390  
+ 3400 .MACHN
+ 3410 LDAinrup:CMP#&2:BCCretun
+ 3420 STZinrup
+ 3430 LDX#&6
+ 3440 .jigle
+ 3450 LDAvalve,X:BEQatoff
+ 3460 CMP#248:BCSatoff:PHX
+ 3470 JSRRANDY
+ 3480 PLX:CPY#&0:BNEatoff
+ 3490 AND#&1:TAY
+ 3500 LDAvalve,X:CLC:ADCmachn,Y
+ 3510 STAvalve,X
+ 3520 .atoff
+ 3530 DEX:BPLjigle
+ 3540 INX:STXeficn
+ 3550 LDXjobbs:LDYnumer,X
+ 3560 .brany
+ 3570 LDAvalve,Y:BNEatzer:RTS
+ 3580 .atzer
+ 3590 DEY:BPLbrany
+ 3600 LDXjobbs:LDAnumer,X:STApaper
+ 3610 TXA:ASLA:ASLA:ASLA:TAY
+ 3620 LDX#&0
+ 3630 .aldon
+ 3640 LDAvalve,X:SEC:SBCadjus,Y
+ 3650 BCSintgr:STAstore
+ 3660 LDA#&0:SEC:SBCstore
+ 3670 .intgr
+ 3680 CMPtoler,X:BCSnotin:STAstore
+ 3690 LDApoint,X:SEC:SBCstore:BCCnotin
+ 3700 CLC:ADCeficn
+ 3710 CMP#101:BCCgreat:LDA#100
+ 3720 .great
+ 3730 STAeficn
+ 3740 .notin
+ 3750 INX:INY:DECpaper:BPLaldon
+ 3760 LDAjobbs:ASLA:TAX
+ 3770 LDAmargn,X:STAdivnd
+ 3780 LDAmargn+&1,X:STAdivnd+&1
+ 3790 LDA#100:STAdivsr:STZdivsr+&1
+ 3800 JSRDEVID
+ 3810 LDAquote:STAmcand
+ 3820 LDAquote+&1:STAmcand+&1
+ 3830 LDAeficn:STAmplir:STZmplir+&1
+ 3840 JSRMULTY
+ 3850 LDAcoins:CLC:ADCprodt:STAcoins
+ 3860 LDAcoins+&1:ADCprodt+&1
+ 3870 STAcoins+&1:BCCleave
+ 3880 INCproft:BNEleave:INCproft+&1
+ 3890 .leave RTS
+ 3900  
+ 3910 .CREDT
+ 3920 LDAproft:STAtempa
+ 3930 LDAproft+&1:STAtempx
+ 3940 LDA#&40:STAindir+&1
+ 3950 LDAcoins+&1:STAindir
+ 3960 LDX#20:LDY#21:JMPDECIM
+ 3970  
+ 3980 .B
+ 3990 TXA:AND#&3:STAdotno
+ 4000 TXA:AND#&FC:ASLA:STApiccy
+ 4010 TYA:AND#&F8:LSRA:LSRA:TAX
+ 4020 LDATI320,X:ADCpiccy:STApiccy
+ 4030 LDATI320+&1,X:ADC#&0:STApiccy+&1
+ 4040 TYA:AND#&7:TAY
+ 4050 LDXdotno:LDAmasks,X
+ 4060 LDXdotnf:ANDvalue,X
+ 4070 EOR(piccy),Y:STA(piccy),Y:RTS
+ 4080  
+ 4090 .masks EQUD&11224488
+ 4100 .value EQUD&FFF00F00
+ 4110 .TI320
+ 4120 ]PROCvideo_table:[OPTA%
+ 4130  
+ 4140 .C
+ 4150 LDX#&0:TXA:TAY
+ 4160 STAquote:STAquote+&1:LDX#16
+ 4170 .nxbit
+ 4180 ASLdivnd:ROLdivnd+&1
+ 4190 PHA:TYA:ROLA:TAY:PLA:ROLA
+ 4200 CMPdivsr+&1:BEQchqlo:BCCqubit
+ 4210 .subdv
+ 4220 PHA:TYA:SBCdivsr:TAY
+ 4230 PLA:SBCdivsr+&1:BCSqubit
+ 4240 .chqlo
+ 4250 CPYdivsr:BCSsubdv
+ 4260 .qubit
+ 4270 ROLquote:ROLquote+&1
+ 4280 DEX:BNEnxbit:RTS
+ 4290  
+ 4300 .D
+ 4310 LDA#&0:TAY
+ 4320 STZprodt:STZprodt+&1:LDX#16
+ 4330 .nexts
+ 4340 ASLprodt:ROLprodt+&1
+ 4350 PHA:TYA:ROLA:TAY:PLA:ROLA
+ 4360 ASLmplir:ROLmplir+&1:BCCendof
+ 4370 CLC:PHA
+ 4380 LDAprodt:ADCmcand:STAprodt
+ 4390 LDAprodt+&1:ADCmcand+&1
+ 4400 STAprodt+&1:PLA:BCCendof
+ 4410 INY:BNEendof:ADC#&0
+ 4420 .endof
+ 4430 DEX:BNEnexts
+ 4440 STAprodt+&3:STYprodt+&2:RTS
+ 4450  
+ 4460 .block
+ 4470 EQUW&11F:EQUB21
+ 4480 EQUD0:EQUD0
+ 4490 EQUD0:EQUD0
+ 4500 EQUD0:EQUD0
+ 4510 EQUD0:EQUD0
+ 4520 .where
+ 4530 EQUWaddra:EQUWaddrb
+ 4540 EQUWaddrc:EQUWaddrd
+ 4550 EQUWaddre:EQUWaddrf
+ 4560 EQUWaddrg:EQUWaddrh
+ 4570 EQUWaddri:EQUWaddrj
+ 4580 EQUWaddrk:EQUWaddrl
+ 4590 EQUWaddrm:EQUWaddrn
+ 4600 EQUWaddro:EQUWaddrp
+ 4610 EQUWaddrq:EQUWaddrr
+ 4620 .addra
+ 4630 EQUS"Cash"
+ 4640 EQUB ASC"?"+Q%
+ 4650 .addrb
+ 4660 EQUS"Unavailabl"
+ 4670 EQUB ASC"e"+Q%
+ 4680 .addrc
+ 4690 EQUS"Fitte"
+ 4700 EQUB ASC"d"+Q%
+ 4710 .addrd
+ 4720 EQUS"Full commodity holdin"
+ 4730 EQUB ASC"g"+Q%
+ 4740 .addre
+ 4750 EQUS"Full share holdin"
+ 4760 EQUB ASC"g"+Q%
+ 4770 .addrf
+ 4780 EQUS"Full currency holdin"
+ 4790 EQUB ASC"g"+Q%
+ 4800 .addrg
+ 4810 EQUS"Press <SPACE> to dispos"
+ 4820 EQUB ASC"e"+Q%
+ 4830 .addrh
+ 4840 EQUS"Full complemen"
+ 4850 EQUB ASC"t"+Q%
+ 4860 .addri
+ 4870 EQUS"Empt"
+ 4880 EQUB ASC"y"+Q%
+ 4890 .addrj
+ 4900 EQUS"Cargo"
+ 4910 EQUB ASC"?"+Q%
+ 4920 .addrk
+ 4930 EQUS"Bu"
+ 4940 EQUB ASC"y"+Q%
+ 4950 .addrl
+ 4960 EQUS"Sel"
+ 4970 EQUB ASC"l"+Q%
+ 4980 .addrm
+ 4990 EQUS"Sill"
+ 5000 EQUB ASC"y"+Q%
+ 5010 .addrn
+ 5020 EQUS"Too bi"
+ 5030 EQUB ASC"g"+Q%
+ 5040 .addro
+ 5050 EQUS"Fault"
+ 5060 EQUB ASC"y"+Q%
+ 5070 .addrp
+ 5080 EQUS"How many"
+ 5090 EQUB ASC"?"+Q%
+ 5100 .addrq
+ 5110 EQUS"Successfu"
+ 5120 EQUB ASC"l"+Q%
+ 5130 .addrr
+ 5140 EQUS"Too muc"
+ 5150 EQUB ASC"h"+Q%
+ 5160  
+ 5170 .E
+ 5180 ASLA:BEQreles:TAX
+ 5190 LDAwhere-&2,X:STAtempa
+ 5200 LDAwhere-&1,X:STAtempx
+ 5210 LDY#&0
+ 5220 .trans
+ 5230 LDA(tempa),Y:BMIgotit
+ 5240 STAblock+&3,Y:INY:BNEtrans
+ 5250 .gotit
+ 5260 AND#&7F:STAblock+&3,Y
+ 5270 TYA:CLC:ADC#&4
+ 5280 LDX#block AND255:LDY#block DIV256
+ 5290 JMPPRYNT
+ 5300  
+ 5310 .F
+ 5320 CMP#ASC"9":BNEfiles
+ 5330 LDA#&0:JMPCEPTR
+ 5340 .files
+ 5350 SEC:SBC#ASC"@":JMPCEPTR
+ 5360  
+ 5370 .G
+ 5380 CLC:LDY#&29:LDX#&FC
+ 5390 .toggl
+ 5400 TYA:LDYrandy+&4,X:ADCrandy+&4,X
+ 5410 STArandy+&4,X:INX:BNEtoggl
+ 5420 .reles RTS
+ 5430  
+ 5440 .H
+ 5450 LDXdials+&4:BEQtwist
+ 5460 LDX#&0:STXysrot
+ 5470 LDAjoyky:BNEperip
+ 5480 ]PROCtest_key(&2A,TRUE):[OPTA%
+ 5490 ]PROCtest_key(&2B,FALSE):[OPTA%
+ 5500 TXA:AND#funcs:STAxsrot:LDX#&0
+ 5510 ]PROCtwice_key(&18,TRUE):[OPTA%
+ 5520 ]PROCtwice_key(&19,FALSE):[OPTA%
+ 5530 TXA:AND#funcs:STAzsrot:JMPselfs
+ 5540 .perip
+ 5550 LDAstick:CMP#&C0:BCCjleft:INX:INX
+ 5560 .jleft
+ 5570 CMP#&40:BCSjrigh:DEX:DEX
+ 5580 .jrigh
+ 5590 TXA:AND#funcs:STAzsrot
+ 5600 LDX#&0:LDAstick+&1
+ 5610 CMP#&C0:BCCjbank:INX
+ 5620 .jbank
+ 5630 CMP#&40:BCSlbank:DEX
+ 5640 .lbank
+ 5650 TXA:AND#funcs:STAxsrot
+ 5660 .selfs
+ 5670 LDAxsrot:AND#&8:STAtempa
+ 5680 LDAzsrot:AND#&8:STAtempx
+ 5690 LDAxsrot:LSRA:LDArolla
+ 5700 ROLA:AND#&7:ORAtempa:STArolla
+ 5710 LDAzsrot:LSRA:LSRA:LDArollb
+ 5720 ROLA:AND#&7:ORAtempx:STArollb
+ 5730 RTS
+ 5740 .twist
+ 5750 STXxsrot:STXzsrot
+ 5760 STXrolla:STXrollb
+ 5770 LDAjoyky:BNEhands
+ 5780 ]PROCtest_key(&18,TRUE):[OPTA%
+ 5790 ]PROCtest_key(&19,FALSE):[OPTA%
+ 5800 TXA:AND#funcs:STAysrot:RTS
+ 5810 .hands
+ 5820 LDAstick:CMP#&C0:BCCkleft:INX
+ 5830 .kleft
+ 5840 CMP#&40:BCSkrigh:DEX
+ 5850 .krigh
+ 5860 TXA:AND#funcs:STAysrot:RTS
+ 5870  
+ 5880 ]:NEXT:END
+ 5900  
+ 5910 DEFPROCtest_key(offs%,flags%)
+ 5920 [OPTA%
+ 5930 LDAbuffr+offs%:BEQP%+&3
+ 5940 ]
+ 5950 IFflags%=TRUE [OPTA% :INX:]
+ 5960 IFflags%=FALSE[OPTA% :DEX:]
+ 5970 ENDPROC
+ 5980  
+ 5990 DEFPROCvideo_table
+ 6000 FORJ%=0TO7
+ 6010 [OPTA%
+ 6020 EQUWVIDEO+J%*&140
+ 6030 ]
+ 6040 NEXT
+ 6050 ENDPROC
+ 6060  
+ 6070 DEFPROCtwice_key(indx%,wave%)
+ 6080 [OPTA%
+ 6090 LDAbuffr+indx%:BEQP%+&4
+ 6100 ]
+ 6110 IFwave%=TRUE [OPTA% :INX:INX:]
+ 6120 IFwave%=FALSE[OPTA% :DEX:DEX:]
+ 6130 ENDPROC
+

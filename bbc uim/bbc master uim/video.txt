@@ -1,0 +1,54 @@
+   10 REM >VIDEO
+   20 *K.0MO.7|MVDU14|ML.120,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.10O.|M*FX12,2|M
+   60 *TV255,1
+   70 MODE7
+   80 VDU30
+   90 PROCassem
+  100 PRINT"Press any key to save UIM-3"
+  110 *FX15,0
+  120 F=GET
+  130 OSCLI"LOAD TUBES "+STR$~hiden
+  140 OSCLI"SAVE :1.UIM-3 3000 +"+STR$~(&A00+(hiden-VIDEO))
+  150 END
+  160  
+  170 DEFPROCassem
+  180 tempa=&70
+  190 tempx=&71
+  200 tempy=&72
+  210 tempz=&73
+  220 start=&7600
+  230 FORA%=0TO2STEP2
+  240 P%=&3000
+  250 [OPTA%
+  260 .VIDEO JMPA
+  270  
+  280 EQUS"--=UIM=-- "
+  290 EQUS"Written by Matthew Atkinson "
+  300 EQUS"(c) 1989 THE FOURTH "
+  310 EQUS"DIMENSION.  "
+  320 .bytes
+  330 EQUWhiden
+  340 EQUWstart
+  350  
+  360 .A
+  370 LDX#&3
+  380 .loops
+  390 LDAbytes,X:STAtempa,X
+  400 DEX:BPLloops
+  410 LDY#&0
+  420 .stick
+  430 LDA(tempa),Y:ORA(tempy),Y
+  440 STA(tempy),Y
+  450 DEY:BNEstick
+  460 INCtempx:INCtempz
+  470 BPLstick:RTS
+  480  
+  490 .hiden
+  500  
+  510 ]:NEXT
+  520 ENDPROC
+  530  
+

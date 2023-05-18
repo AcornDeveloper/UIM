@@ -1,0 +1,131 @@
+   10 REM >SWRAM
+   20 *K.0MO.7|MVDU14|ML.500,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~P%|M
+   60 *K.4*SAVE :1.UIM-2 5800 +0200 0B00 0B00|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 iligh=&2C
+  100 death=&2D
+  110 vapor=&2E
+  120 alred=&34
+  130 dials=&40
+  140 facet=&5E
+  150 tcols=&64
+  160 joyky=&65
+  170 tempa=&70
+  180 tempx=&71
+  190 tempy=&72
+  200 tempz=&73
+  210 noise=&78
+  220 opton=&82
+  230 basic=&83
+  240 swram=&84
+  250 oldrm=&F4
+  260 MASTR=&B00
+  270 BELOW=&2000
+  280 VIDEO=&5820
+  290 SWRAM=&8000
+  300 SHELA=&FE00
+  310 OSW=&FFEE
+  320 OSB=&FFF4
+  330 OSC=&FFF7
+  340 FORA%=4TO6STEP2
+  350 O%=&5800
+  360 P%=&B00
+  370 [OPTA%
+  380 .BANKS JMPA
+  390 .DLOAD JMPB
+  400  
+  410 .A
+  420 STZnoise:STZjoyky
+  430 STZtcols:STZdeath
+  440 STZiligh:STZvapor
+  450 STZfacet
+  460 LDX#&7:STXswram:LDA#&FF
+  470 .clean
+  480 STAdials,X
+  490 STZdials+&8,X
+  500 DEX:BPLclean
+  510 STZdials+&4
+  520 LDA#&80:LDX#&B
+  530 .block
+  540 STAalred,X:DEX:BPLblock
+  550 JSRDIREC
+  560 LDA#ASC"3":JSRMCODE
+  570 LDA#ASC"4":JSRMCODE
+  580 LDA#ASC"5":JSRMCODE
+  590 LDA#ASC"6":JSRMCODE
+  600 LDA#ASC"7":JSRMCODE
+  610 LDA#ASC"8"
+  620  
+  630 .MCODE
+  640 STAtitle+&6:LDX#title AND255
+  650 LDY#title DIV256:LDA#&4
+  660 JMP(&21E)
+  670  
+  680 .title
+  690 EQUS"$.UIM-*":EQUB&D
+  700  
+  710 .B
+  720 LDXlocat:STZtempa
+  730 LDA#BELOW DIV256:STAtempx
+  740 LDAgoing,X:STAtempy
+  750 LDAgoing+&1,X:STAtempz
+  760 LDX#32:LDY#&0
+  770 SEI
+  780 LDA#&7:STAoldrm
+  790 STASHELA+&30:STASHELA+&32
+  800 CLI
+  810 .sheet
+  820 LDA(tempa),Y:STA(tempy),Y
+  830 INY:BNEsheet:INCtempx:INCtempz
+  840 DEX:BNEsheet
+  850 SEI
+  860 LDAbasic:STAoldrm
+  870 STASHELA+&30:STASHELA+&32
+  880 CLI
+  890 LDAlocat:BNEloads
+  900 LDA#&2:STAlocat:RTS
+  910 .loads
+  920 SEI
+  930 LDA#&7:STAoldrm
+  940 STASHELA+&30:STASHELA+&32
+  950 CLI
+  960 LDA#SWRAM AND255:STAtempa
+  970 LDA#SWRAM DIV256:STAtempx
+  980 LDA#VIDEO AND255:STAtempy
+  990 LDA#VIDEO DIV256:STAtempz
+ 1000 LDX#24:LDY#&0
+ 1010 .apage
+ 1020 LDA(tempa),Y:STA(tempy),Y
+ 1030 DEY:BNEapage
+ 1040 INCtempx
+ 1050 LDAtempy:CLC:ADC#&40:STAtempy
+ 1060 LDAtempz:ADC#&1:STAtempz
+ 1070 DEX:BNEapage
+ 1080 SEI
+ 1090 LDAbasic:STAoldrm
+ 1100 STASHELA+&30:STASHELA+&32
+ 1110 LDA#&C:STAopton:STAopton+&1
+ 1120 CLI:RTS
+ 1130  
+ 1140 .locat EQUB0
+ 1150 .going
+ 1160 EQUWSWRAM
+ 1170 EQUWSWRAM+&2000
+ 1180  
+ 1190 .DIREC
+ 1200 LDX#direc AND255:LDY#direc DIV256
+ 1210 JSROSC
+ 1220 LDX#brogn AND255:LDY#brogn DIV256
+ 1230 LDA#&4:JMP(&21E)
+ 1240  
+ 1250 .direc
+ 1260 EQUS"DIR U":EQUB&D
+ 1270 .brogn
+ 1280 EQUS"BROGAN":EQUB&D
+ 1290  
+ 1300 ]:NEXT
+

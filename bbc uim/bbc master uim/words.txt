@@ -1,0 +1,791 @@
+   10 REM >WORDS
+   20 *K.0MO.7|MVDU14|ML.6180,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~O%,~P%|M
+   60 *K.4*SAVE :1.C.CODES 5800 +0A80 4200 4200|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 K%=RND(-10)
+  100 K%=&80
+  110  
+  120 grabs=&2
+  130 panor=&6
+  140 needl=&B
+  150 image=&E
+  160 muscl=&F
+  170 randy=&10
+  180 xsrot=&20
+  190 ysrot=&21
+  200 zsrot=&22
+  210 xpont=&23
+  220 ypont=&24
+  230 zpont=&25
+  240 twisx=&26
+  250 twisy=&27
+  260 twisz=&28
+  270 vapor=&2E
+  280 negag=&30
+  290 dials=&40
+  300 origx=&60
+  310 origy=&62
+  320 circl=&68
+  330 tempa=&70
+  340 tempx=&71
+  350 tempy=&72
+  360 tempz=&73
+  370 indir=&74
+  380 piccy=&7D
+  390 opton=&82
+  400 quote=&85:prodt=&85
+  410 sitop=&87
+  420 sibot=&88
+  430 divnd=&89:mcand=&89
+  440 divsr=&8B:mplir=&8B
+  450 vdurs=&8D
+  460 money=&A00
+  470 sixtn=&A10
+  480 SWIVL=&1C12
+  490 RANDY=&3A92
+  500 PRYNT=&AF0C
+  510 FORA%=4TO6STEP2
+  520 O%=&5800
+  530 P%=&4200
+  540 [OPTA%
+  550 .WORDS JMPA
+  560 .FEBAK JMPB
+  570 .BUBBL JMPC
+  580 .DOLAR JMPD
+  590 .ALERT JMPE
+  600  
+  610 .A
+  620 LDY#&0:STYcircl+&1
+  630 ASLA:ROLcircl+&1
+  640 ADC#messa AND255:STAcircl
+  650 LDAcircl+&1
+  660 ADC#messa DIV256:STAcircl+&1
+  670 LDA(circl),Y:STAtempa:INY
+  680 LDA(circl),Y:STAtempx:DEY
+  690 .rtrev
+  700 LDA(tempa),Y:STAsixtn,Y
+  710 BMIlasts:INY:BNErtrev
+  720 .lasts
+  730 AND#&7F:STAsixtn,Y
+  740 LDA#&0:STAsixtn+&1,Y:RTS
+  750  
+  760 .aa0
+  770 EQUS"Torped"
+  780 EQUB ASC"o"+K%
+  790 .aa1
+  800 EQUS"Sea Mine"
+  810 EQUB ASC"s"+K%
+  820 .aa2
+  830 EQUS"Soxel Generato"
+  840 EQUB ASC"r"+K%
+  850 .aa3
+  860 EQUS"Phaso"
+  870 EQUB ASC"r"+K%
+  880 .aa4
+  890 EQUS"Flare"
+  900 EQUB ASC"s"+K%
+  910 .aa5
+  920 EQUS"Stealth Devic"
+  930 EQUB ASC"e"+K%
+  940 .aa6
+  950 EQUS"Chlorel Generato"
+  960 EQUB ASC"r"+K%
+  970 .aa7
+  980 EQUS"E.M.P. Uni"
+  990 EQUB ASC"t"+K%
+ 1000 .aa8
+ 1010 EQUS"Manipulator Ar"
+ 1020 EQUB ASC"m"+K%
+ 1030 .aa9
+ 1040 EQUS"Intelligent Chaf"
+ 1050 EQUB ASC"f"+K%
+ 1060 .aa10
+ 1070 EQUS"Hydrox Generato"
+ 1080 EQUB ASC"r"+K%
+ 1090 .aa11
+ 1100 EQUS"Chameleon Uni"
+ 1110 EQUB ASC"t"+K%
+ 1120 .aa12
+ 1130 EQUS"Goledy Generato"
+ 1140 EQUB ASC"r"+K%
+ 1150 .aa13
+ 1160 EQUS"Thermosystem Devic"
+ 1170 EQUB ASC"e"+K%
+ 1180 .aa14
+ 1190 EQUS"Re-Target Syste"
+ 1200 EQUB ASC"m"+K%
+ 1210 .aa15
+ 1220 EQUS"Display Modul"
+ 1230 EQUB ASC"e"+K%
+ 1240 .aa16
+ 1250 EQUS"Deuteriu"
+ 1260 EQUB ASC"m"+K%
+ 1270 .aa17
+ 1280 EQUS"Cargo Po"
+ 1290 EQUB ASC"d"+K%
+ 1300 .aa18
+ 1310 EQUS"Heat Shiel"
+ 1320 EQUB ASC"d"+K%
+ 1330 .aa19
+ 1340 EQUS"Fuel Converto"
+ 1350 EQUB ASC"r"+K%
+ 1360 .aa20
+ 1370 EQUS"Central Compute"
+ 1380 EQUB ASC"r"+K%
+ 1390 .aa21
+ 1400 EQUS"Teleporte"
+ 1410 EQUB ASC"r"+K%
+ 1420 .aa22
+ 1430 EQUS"Navigation Modul"
+ 1440 EQUB ASC"e"+K%
+ 1450 .aa23
+ 1460 EQUS"Portfolio Hexago"
+ 1470 EQUB ASC"n"+K%
+ 1480 .aa24
+ 1490 EQUS"Re-Entry Modul"
+ 1500 EQUB ASC"e"+K%
+ 1510 .aa25
+ 1520 EQUS"Mission Modul"
+ 1530 EQUB ASC"e"+K%
+ 1540 .aa26
+ 1550 EQUS"Financial Modul"
+ 1560 EQUB ASC"e"+K%
+ 1570 .aa27
+ 1580 EQUS"Ocean Driv"
+ 1590 EQUB ASC"e"+K%
+ 1600 .aa28
+ 1610 EQUS"Deflector"
+ 1620 EQUB ASC"s"+K%
+ 1630 .aa29
+ 1640 EQUS"Graviton Detecto"
+ 1650 EQUB ASC"r"+K%
+ 1660 .aa30
+ 1670 EQUS"Air Loc"
+ 1680 EQUB ASC"k"+K%
+ 1690 .aa31
+ 1700 EQUS"Torpedo Modul"
+ 1710 EQUB ASC"e"+K%
+ 1720 .aa32
+ 1730 EQUS"Salt"
+ 1740 EQUB ASC"s"+K%
+ 1750 .aa33
+ 1760 EQUS"Lipid"
+ 1770 EQUB ASC"s"+K%
+ 1780 .aa34
+ 1790 EQUS"Vitamin"
+ 1800 EQUB ASC"s"+K%
+ 1810 .aa35
+ 1820 EQUS"Hormone"
+ 1830 EQUB ASC"s"+K%
+ 1840 .aa36
+ 1850 EQUS"Hydrocarbon"
+ 1860 EQUB ASC"s"+K%
+ 1870 .aa37
+ 1880 EQUS"Protein"
+ 1890 EQUB ASC"s"+K%
+ 1900 .aa38
+ 1910 EQUS"Amino Acid"
+ 1920 EQUB ASC"s"+K%
+ 1930 .aa39
+ 1940 EQUS"Carbohydrate"
+ 1950 EQUB ASC"s"+K%
+ 1960 .aa40
+ 1970 EQUS"Cellulos"
+ 1980 EQUB ASC"e"+K%
+ 1990 .aa41
+ 2000 EQUS"Keratin"
+ 2010 EQUB ASC"s"+K%
+ 2020 .aa42
+ 2030 EQUS"Nitro-amine"
+ 2040 EQUB ASC"s"+K%
+ 2050 .aa43
+ 2060 EQUS"Salycyclic Aci"
+ 2070 EQUB ASC"d"+K%
+ 2080 .aa44
+ 2090 EQUS"Fatty Acid"
+ 2100 EQUB ASC"s"+K%
+ 2110 .aa45
+ 2120 EQUS"Endorphin"
+ 2130 EQUB ASC"s"+K%
+ 2140 .aa46
+ 2150 EQUS"Genetic Materia"
+ 2160 EQUB ASC"l"+K%
+ 2170 .aa47
+ 2180 EQUS"Alcohol"
+ 2190 EQUB ASC"s"+K%
+ 2200 .bb0
+ 2210 EQUS"Antares TRUS"
+ 2220 EQUB ASC"T"+K%
+ 2230 .bb1
+ 2240 EQUS"Polymers IN"
+ 2250 EQUB ASC"C"+K%
+ 2260 .bb2
+ 2270 EQUS"Terraform UN"
+ 2280 EQUB ASC"L"+K%
+ 2290 .bb3
+ 2300 EQUS"Jovian UN"
+ 2310 EQUB ASC"L"+K%
+ 2320 .bb4
+ 2330 EQUS"Tachyon TRUS"
+ 2340 EQUB ASC"T"+K%
+ 2350 .bb5
+ 2360 EQUS"Satsuma UN"
+ 2370 EQUB ASC"L"+K%
+ 2380 .bb6
+ 2390 EQUS"Cyberoid COR"
+ 2400 EQUB ASC"P"+K%
+ 2410 .bb7
+ 2420 EQUS"Succinct UN"
+ 2430 EQUB ASC"L"+K%
+ 2440 .bb8
+ 2450 EQUS"Bio-med COR"
+ 2460 EQUB ASC"P"+K%
+ 2470 .bb9
+ 2480 EQUS"Chromaglu GL"
+ 2490 EQUB ASC"C"+K%
+ 2500 .bb10
+ 2510 EQUS"Zeta Bank GL"
+ 2520 EQUB ASC"C"+K%
+ 2530 .bb11
+ 2540 EQUS"Interon IN"
+ 2550 EQUB ASC"C"+K%
+ 2560 .bb12
+ 2570 EQUS"Norca UN"
+ 2580 EQUB ASC"L"+K%
+ 2590 .bb13
+ 2600 EQUS"Equalan GL"
+ 2610 EQUB ASC"C"+K%
+ 2620 .bb14
+ 2630 EQUS"Vizoid GL"
+ 2640 EQUB ASC"C"+K%
+ 2650 .bb15
+ 2660 EQUS"Borealus UN"
+ 2670 EQUB ASC"L"+K%
+ 2680 .bb16
+ 2690 EQUS"Conchell"
+ 2700 EQUB ASC"a"+K%
+ 2710 .bb17
+ 2720 EQUS"Paasequ"
+ 2730 EQUB ASC"e"+K%
+ 2740 .bb18
+ 2750 EQUS"Shillo"
+ 2760 EQUB ASC"p"+K%
+ 2770 .bb19
+ 2780 EQUS"Dia-Mon"
+ 2790 EQUB ASC"a"+K%
+ 2800 .bb20
+ 2810 EQUS"Philfie Luke"
+ 2820 EQUB ASC"r"+K%
+ 2830 .bb21
+ 2840 EQUS"Rubico"
+ 2850 EQUB ASC"n"+K%
+ 2860 .bb22
+ 2870 EQUS"Antritio"
+ 2880 EQUB ASC"n"+K%
+ 2890 .bb23
+ 2900 EQUS"Beageraf"
+ 2910 EQUB ASC"f"+K%
+ 2920 .bb24
+ 2930 EQUS"Xerkera"
+ 2940 EQUB ASC"t"+K%
+ 2950 .bb25
+ 2960 EQUS"Aggrragel"
+ 2970 EQUB ASC"d"+K%
+ 2980 .bb26
+ 2990 EQUS"Herra"
+ 3000 EQUB ASC"c"+K%
+ 3010 .bb27
+ 3020 EQUS"Mon-Her-Po"
+ 3030 EQUB ASC"c"+K%
+ 3040 .bb28
+ 3050 EQUS"Frappata"
+ 3060 EQUB ASC"l"+K%
+ 3070 .bb29
+ 3080 EQUS"Quince-A"
+ 3090 EQUB ASC"r"+K%
+ 3100 .bb30
+ 3110 EQUS"Yi"
+ 3120 EQUB ASC"p"+K%
+ 3130 .bb31
+ 3140 EQUS"Uura"
+ 3150 EQUB ASC"t"+K%
+ 3160 .extr0
+ 3170 EQUS"Meteorological Modul"
+ 3180 EQUB ASC"e"+K%
+ 3190 .extr1
+ 3200 EQUS"Booby Trap Detecto"
+ 3210 EQUB ASC"r"+K%
+ 3220 .extr2
+ 3230 EQUS"Neural Networ"
+ 3240 EQUB ASC"k"+K%
+ 3250 .extr3
+ 3260 EQUS"Extra Fuel Cell"
+ 3270 EQUB ASC"s"+K%
+ 3280 .extr4
+ 3290 EQUS"Sub-Liminal Tuto"
+ 3300 EQUB ASC"r"+K%
+ 3310 .extr5
+ 3320 EQUS"Omniscient Ze"
+ 3330 EQUB ASC"n"+K%
+ 3340 .extr6
+ 3350 EQUS"Ticker Tape Uni"
+ 3360 EQUB ASC"t"+K%
+ 3370 .extr7
+ 3380 EQUS"Jukebo"
+ 3390 EQUB ASC"x"+K%
+ 3400 .extr8
+ 3410 EQUS"Self-Destruct Devic"
+ 3420 EQUB ASC"e"+K%
+ 3430 .extr9
+ 3440 EQUS"Maintenance Droi"
+ 3450 EQUB ASC"d"+K%
+ 3460 .extr10
+ 3470 EQUS"Dust Scoo"
+ 3480 EQUB ASC"p"+K%
+ 3490 .extr11
+ 3500 EQUS"Meteorological Sensor"
+ 3510 EQUB ASC"s"+K%
+ 3520 .extr12
+ 3530 EQUS"Universal Translato"
+ 3540 EQUB ASC"r"+K%
+ 3550 .extr13
+ 3560 EQUS"Laser Side Ar"
+ 3570 EQUB ASC"m"+K%
+ 3580 .extr14
+ 3590 EQUS"Sociological Analyse"
+ 3600 EQUB ASC"r"+K%
+ 3610 .extr15
+ 3620 EQUS"Network Archiv"
+ 3630 EQUB ASC"e"+K%
+ 3640 .gov0
+ 3650 EQUS"Imperia"
+ 3660 EQUB ASC"l"+K%
+ 3670 .gov1
+ 3680 EQUS"Communis"
+ 3690 EQUB ASC"t"+K%
+ 3700 .gov2
+ 3710 EQUS"Feuda"
+ 3720 EQUB ASC"l"+K%
+ 3730 .gov3
+ 3740 EQUS"Autocrac"
+ 3750 EQUB ASC"y"+K%
+ 3760 .gov4
+ 3770 EQUS"Democrac"
+ 3780 EQUB ASC"y"+K%
+ 3790 .gov5
+ 3800 EQUS"Theocrac"
+ 3810 EQUB ASC"y"+K%
+ 3820 .gov6
+ 3830 EQUS"Socialis"
+ 3840 EQUB ASC"t"+K%
+ 3850 .gov7
+ 3860 EQUS"Cosmopolita"
+ 3870 EQUB ASC"n"+K%
+ 3880 .gov8
+ 3890 EQUS"Oligarch"
+ 3900 EQUB ASC"y"+K%
+ 3910 .gov9
+ 3920 EQUS"Triba"
+ 3930 EQUB ASC"l"+K%
+ 3940 .govA
+ 3950 EQUS"Fascis"
+ 3960 EQUB ASC"t"+K%
+ 3970 .govB
+ 3980 EQUS"Corporat"
+ 3990 EQUB ASC"e"+K%
+ 4000 .govC
+ 4010 EQUS"Monarch"
+ 4020 EQUB ASC"y"+K%
+ 4030 .govD
+ 4040 EQUS"Capitalis"
+ 4050 EQUB ASC"t"+K%
+ 4060 .govE
+ 4070 EQUS"Martia"
+ 4080 EQUB ASC"l"+K%
+ 4090 .govF
+ 4100 EQUS"Meritocrac"
+ 4110 EQUB ASC"y"+K%
+ 4120 .item0
+ 4130 EQUS"Drug"
+ 4140 EQUB ASC"s"+K%
+ 4150 .item1
+ 4160 EQUS"Document"
+ 4170 EQUB ASC"s"+K%
+ 4180 .item2
+ 4190 EQUS"Transplant orga"
+ 4200 EQUB ASC"n"+K%
+ 4210 .item3
+ 4220 EQUS"Electronic"
+ 4230 EQUB ASC"s"+K%
+ 4240 .item4
+ 4250 EQUS"Microfil"
+ 4260 EQUB ASC"m"+K%
+ 4270 .item5
+ 4280 EQUS"Softwar"
+ 4290 EQUB ASC"e"+K%
+ 4300 .item6
+ 4310 EQUS"Textile"
+ 4320 EQUB ASC"s"+K%
+ 4330 .item7
+ 4340 EQUS"Gol"
+ 4350 EQUB ASC"d"+K%
+ 4360 .item8
+ 4370 EQUS"Platinu"
+ 4380 EQUB ASC"m"+K%
+ 4390 .item9
+ 4400 EQUS"Optic"
+ 4410 EQUB ASC"s"+K%
+ 4420 .item10
+ 4430 EQUS"Medical equipmen"
+ 4440 EQUB ASC"t"+K%
+ 4450 .item11
+ 4460 EQUS"Video dis"
+ 4470 EQUB ASC"c"+K%
+ 4480 .item12
+ 4490 EQUS"Audio dis"
+ 4500 EQUB ASC"c"+K%
+ 4510 .item13
+ 4520 EQUS"Prisone"
+ 4530 EQUB ASC"r"+K%
+ 4540 .item14
+ 4550 EQUS"Diamond"
+ 4560 EQUB ASC"s"+K%
+ 4570 .item15
+ 4580 EQUS"Emerald"
+ 4590 EQUB ASC"s"+K%
+ 4600 .adjt0
+ 4610 EQUS"Militar"
+ 4620 EQUB ASC"y"+K%
+ 4630 .adjt1
+ 4640 EQUS"Expensiv"
+ 4650 EQUB ASC"e"+K%
+ 4660 .adjt2
+ 4670 EQUS"Volatil"
+ 4680 EQUB ASC"e"+K%
+ 4690 .adjt3
+ 4700 EQUS"Specia"
+ 4710 EQUB ASC"l"+K%
+ 4720 .adjt4
+ 4730 EQUS"Importan"
+ 4740 EQUB ASC"t"+K%
+ 4750 .adjt5
+ 4760 EQUS"Urgen"
+ 4770 EQUB ASC"t"+K%
+ 4780 .adjt6
+ 4790 EQUS"Rar"
+ 4800 EQUB ASC"e"+K%
+ 4810 .adjt7
+ 4820 EQUS"Vita"
+ 4830 EQUB ASC"l"+K%
+ 4840  
+ 4850 .messa
+ 4860 EQUWaa0:EQUWaa1
+ 4870 EQUWaa2:EQUWaa3
+ 4880 EQUWaa4:EQUWaa5
+ 4890 EQUWaa6:EQUWaa7
+ 4900 EQUWaa8:EQUWaa9
+ 4910 EQUWaa10:EQUWaa11
+ 4920 EQUWaa12:EQUWaa13
+ 4930 EQUWaa14:EQUWaa15
+ 4940 EQUWaa16:EQUWaa17
+ 4950 EQUWaa18:EQUWaa19
+ 4960 EQUWaa20:EQUWaa21
+ 4970 EQUWaa22:EQUWaa23
+ 4980 EQUWaa24:EQUWaa25
+ 4990 EQUWaa26:EQUWaa27
+ 5000 EQUWaa28:EQUWaa29
+ 5010 EQUWaa30:EQUWaa31
+ 5020 EQUWaa32:EQUWaa33
+ 5030 EQUWaa34:EQUWaa35
+ 5040 EQUWaa36:EQUWaa37
+ 5050 EQUWaa38:EQUWaa39
+ 5060 EQUWaa40:EQUWaa41
+ 5070 EQUWaa42:EQUWaa43
+ 5080 EQUWaa44:EQUWaa45
+ 5090 EQUWaa46:EQUWaa47
+ 5100 EQUWbb0:EQUWbb1
+ 5110 EQUWbb2:EQUWbb3
+ 5120 EQUWbb4:EQUWbb5
+ 5130 EQUWbb6:EQUWbb7
+ 5140 EQUWbb8:EQUWbb9
+ 5150 EQUWbb10:EQUWbb11
+ 5160 EQUWbb12:EQUWbb13
+ 5170 EQUWbb14:EQUWbb15
+ 5180 EQUWbb16:EQUWbb17
+ 5190 EQUWbb18:EQUWbb19
+ 5200 EQUWbb20:EQUWbb21
+ 5210 EQUWbb22:EQUWbb23
+ 5220 EQUWbb24:EQUWbb25
+ 5230 EQUWbb26:EQUWbb27
+ 5240 EQUWbb28:EQUWbb29
+ 5250 EQUWbb30:EQUWbb31
+ 5260 EQUWextr0:EQUWextr1
+ 5270 EQUWextr2:EQUWextr3
+ 5280 EQUWextr4:EQUWextr5
+ 5290 EQUWextr6:EQUWextr7
+ 5300 EQUWextr8:EQUWextr9
+ 5310 EQUWextr10:EQUWextr11
+ 5320 EQUWextr12:EQUWextr13
+ 5330 EQUWextr14:EQUWextr15
+ 5340 EQUWgov0:EQUWgov1
+ 5350 EQUWgov2:EQUWgov3
+ 5360 EQUWgov4:EQUWgov5
+ 5370 EQUWgov6:EQUWgov7
+ 5380 EQUWgov8:EQUWgov9
+ 5390 EQUWgovA:EQUWgovB
+ 5400 EQUWgovC:EQUWgovD
+ 5410 EQUWgovE:EQUWgovF
+ 5420 EQUWitem0:EQUWitem1
+ 5430 EQUWitem2:EQUWitem3
+ 5440 EQUWitem4:EQUWitem5
+ 5450 EQUWitem6:EQUWitem7
+ 5460 EQUWitem8:EQUWitem9
+ 5470 EQUWitem10:EQUWitem11
+ 5480 EQUWitem12:EQUWitem13
+ 5490 EQUWitem14:EQUWitem15
+ 5500 EQUWadjt0:EQUWadjt1
+ 5510 EQUWadjt2:EQUWadjt3
+ 5520 EQUWadjt4:EQUWadjt5
+ 5530 EQUWadjt6:EQUWadjt7
+ 5540  
+ 5550 .where
+ 5560 EQUWaddra:EQUWaddrb
+ 5570 EQUWaddrc:EQUWaddrd
+ 5580 EQUWaddre:EQUWaddrf
+ 5590 EQUWaddrg:EQUWaddrh
+ 5600 EQUWaddri:EQUWaddrj
+ 5610 EQUWaddrk:EQUWaddrl
+ 5620 EQUWaddrm:EQUWaddrn
+ 5630 EQUWaddro:EQUWaddrp
+ 5640 EQUWaddrq
+ 5650 .addra
+ 5660 EQUS"NOT ENOUGH DEUTERIU"
+ 5670 EQUB ASC"M"+K%
+ 5680 .addrb
+ 5690 EQUS"FORE SHIELD OU"
+ 5700 EQUB ASC"T"+K%
+ 5710 .addrc
+ 5720 EQUS"AFT SHIELD OU"
+ 5730 EQUB ASC"T"+K%
+ 5740 .addrd
+ 5750 EQUS"FISH SHOAL"
+ 5760 EQUB ASC"S"+K%
+ 5770 .addre
+ 5780 EQUS"VOLCANIC ACTIVIT"
+ 5790 EQUB ASC"Y"+K%
+ 5800 .addrf
+ 5810 EQUS"LOW VISUAL"
+ 5820 EQUB ASC"S"+K%
+ 5830 .addrg
+ 5840 EQUS"REPLICATOR ACTIVIT"
+ 5850 EQUB ASC"Y"+K%
+ 5860 .addrh
+ 5870 EQUS"DEBRI"
+ 5880 EQUB ASC"S"+K%
+ 5890 .addri
+ 5900 EQUS"SELF DESTRUC"
+ 5910 EQUB ASC"T"+K%
+ 5920 .addrj
+ 5930 EQUS"BOOBY TRA"
+ 5940 EQUB ASC"P"+K%
+ 5950 .addrk
+ 5960 EQUS"PRESENT POR"
+ 5970 EQUB ASC"T"+K%
+ 5980 .addrl
+ 5990 EQUS"POLIC"
+ 6000 EQUB ASC"E"+K%
+ 6010 .addrm
+ 6020 EQUS"TORPEDO LAUNCHE"
+ 6030 EQUB ASC"D"+K%
+ 6040 .addrn
+ 6050 EQUS"ORBITAL FLIGHT ENGAGE"
+ 6060 EQUB ASC"D"+K%
+ 6070 .addro
+ 6080 EQUS"OCEAN DRIVE ENGAGE"
+ 6090 EQUB ASC"D"+K%
+ 6100 .addrp
+ 6110 EQUS"MILITAR"
+ 6120 EQUB ASC"Y"+K%
+ 6130 .addrq
+ 6140 EQUS"RE-ENTRY ENGAGE"
+ 6150 EQUB ASC"D"+K%
+ 6160  
+ 6170 .B
+ 6180 LDXneedl:BNEexits
+ 6190 LDAvapor:BMInopan
+ 6200 LDXpanor:BPLround:STXvapor
+ 6210 .round
+ 6220 DECpanor
+ 6230 LDX#31:STXsixtn
+ 6240 LDX#21:STXsixtn+&2
+ 6250 ASLA:TAX:CPX#&40:BCSacomo
+ 6260 LDAwhere,X:STAtempa
+ 6270 LDAwhere+&1,X:STAtempx
+ 6280 .putin
+ 6290 LDY#&0
+ 6300 .trans
+ 6310 LDA(tempa),Y:BMIgotit
+ 6320 CMP#ASC"A":BCCnoand:AND#&5F
+ 6330 .noand
+ 6340 STAsixtn+&3,Y:INY:BNEtrans
+ 6350 .gotit
+ 6360 AND#&5F:STAsixtn+&3,Y
+ 6370 STYtempy:LDA#&20:SEC:SBCtempy
+ 6380 LSRA:STAsixtn+&1
+ 6390 TYA:CLC:ADC#&4
+ 6400 LDX#sixtn AND255:LDY#sixtn DIV256
+ 6410 JMPPRYNT
+ 6420 .acomo
+ 6430 LDAmessa,X:STAtempa
+ 6440 LDAmessa+&1,X:STAtempx
+ 6450 BRAputin
+ 6460 .nopan
+ 6470 LDX#&C:STXpanor
+ 6480 .exits RTS
+ 6490  
+ 6500 .C
+ 6510 LDX#&8:LDAdials+&4
+ 6520 LSRA:LSRA:LSRA
+ 6530 STApiccy:BEQnmove:LDX#&0
+ 6540 .nmove
+ 6550 STXpiccy+&1
+ 6560 LDX#&F:STXvdurs
+ 6570 .loops
+ 6580 JSRRANDY
+ 6590 LDXvdurs
+ 6600 LDAxcoor,X:STAxpont
+ 6610 LDAycoor,X:SEC:SBCpiccy+&1
+ 6620 STAypont
+ 6630 LDAzcoor,X:SEC:SBCpiccy
+ 6640 STAzpont:BCSheart:STAzcoor,X
+ 6650 LDArandy+&1:STAxcoor,X
+ 6660 LDArandy+&2:STAycoor,X
+ 6670 BCCatzer
+ 6680 .heart
+ 6690 LDAopton:CMP#&6:BNEatzer
+ 6700 LDAxsrot:STAtwisx
+ 6710 LDAysrot:STAtwisy
+ 6720 LDAzsrot:STAtwisz
+ 6730 JSRSWIVL
+ 6740 LDXvdurs
+ 6750 LDAxpont:STAxcoor,X
+ 6760 LDAypont:STAycoor,X
+ 6770 LDAzpont:STAzcoor,X
+ 6780 BMIatzer:EOR#&7F:BEQatzer
+ 6790 CMP#&10:BCCatzer
+ 6800 JSRPERSP
+ 6810 LDAorigx+&1:ORAorigy+&1:BNEatzer
+ 6820 JSRLIGHT
+ 6830 .atzer
+ 6840 DECvdurs:BPLloops:RTS
+ 6850  
+ 6860 .PERSP
+ 6870 STAvdurs+&1:STAmcand
+ 6880 LDYxpont:STYmplir
+ 6890 JSRMULTY
+ 6900 JSRDEVID
+ 6910 LDAquote:CLC:ADC#128:STAorigx
+ 6920 LDAquote+&1:ADC#&0:STAorigx+&1
+ 6930 LDAvdurs+&1:STAmcand
+ 6940 LDYypont:STYmplir
+ 6950 JSRMULTY
+ 6960 JSRDEVID
+ 6970 LDAquote:CLC:ADC#96:STAorigy
+ 6980 LDAquote+&1:ADC#&0:STAorigy+&1
+ 6990 RTS
+ 7000  
+ 7010 .LIGHT
+ 7020 LDA#&3:STAtempy
+ 7030 LDAorigx:AND#&7:TAX
+ 7040 .bubbl
+ 7050 LDAzpont:LDYtempy
+ 7060 CMPdistn,Y:BCSdpart
+ 7070 LDAorigy:CMP#192:BCSdpart
+ 7080 LSRA:LSRA:SEC
+ 7090 RORA:STAtempx
+ 7100 LDAorigx:AND#&F8:STAtempa
+ 7110 LDAorigy:AND#&7:TAY
+ 7120 LDA(tempa),Y:ORAbytes,X
+ 7130 STA(tempa),Y:INCorigy
+ 7140 DECtempy:BNEbubbl
+ 7150 .dpart RTS
+ 7160  
+ 7170 .distn EQUD&60502010
+ 7180 .bytes
+ 7190 EQUD&3060C0C0:EQUD&3060C0C
+ 7200 .xcoor
+ 7210 EQUD RND:EQUD RND
+ 7220 EQUD RND:EQUD RND
+ 7230 .ycoor
+ 7240 EQUD RND:EQUD RND
+ 7250 EQUD RND:EQUD RND
+ 7260 .zcoor
+ 7270 EQUD RND:EQUD RND
+ 7280 EQUD RND:EQUD RND
+ 7290  
+ 7300 .DEVID
+ 7310 LDAquote+&1:TAY:BPLnoinv
+ 7320 LDA#&0:SEC:SBCquote:STAquote
+ 7330 LDA#&0:SBCquote+&1:STAquote+&1
+ 7340 .noinv
+ 7350 LSRA:RORquote
+ 7360 LSRA:RORquote
+ 7370 LSRA:RORquote
+ 7380 LSRA:RORquote
+ 7390 LSRA:RORquote
+ 7400 LSRA:RORquote
+ 7410 LSRA:RORquote
+ 7420 STAquote+&1
+ 7430 TYA:BPLrefig
+ 7440 LDA#&0:SEC:SBCquote:STAquote
+ 7450 LDA#&0:SBCquote+&1:STAquote+&1
+ 7460 .refig RTS
+ 7470  
+ 7480 .MULTY
+ 7490 BPLsodit:LDA#&0
+ 7500 SEC:SBCmplir:STAmplir
+ 7510 .sodit
+ 7520 LDA#&0:STAprodt+&1:LDX#&8
+ 7530 .eight
+ 7540 ASLA:ROLprodt+&1
+ 7550 ASLmplir:BCCbipas
+ 7560 CLC:ADCmcand
+ 7570 BCCbipas:INCprodt+&1
+ 7580 .bipas
+ 7590 DEX:BNEeight
+ 7600 STAprodt
+ 7610 TYA:BPLdummy
+ 7620 TXA:SEC:SBCprodt:STAprodt
+ 7630 TXA:SBCprodt+&1:STAprodt+&1
+ 7640 .dummy RTS
+ 7650  
+ 7660 .D
+ 7670 LDAimage:BMIdummy
+ 7680 LDXmuscl:BPLforts
+ 7690 LDY#&7:STYmuscl
+ 7700 CLC:ADCmoney:STAmoney
+ 7710 BCCdummy:INCmoney+&1:BNEdummy
+ 7720 STXmoney:STXmoney+&1:RTS
+ 7730 .forts
+ 7740 DECmuscl:BMIshuts
+ 7750 ORA#ASC"0":STAdolar+&3
+ 7760 LDX#dolar AND255:LDY#dolar DIV256
+ 7770 LDA#E-dolar:JMPPRYNT
+ 7780  
+ 7790 .dolar
+ 7800 EQUW&E1F:EQUB20
+ 7810 EQUS"* N$"
+ 7820  
+ 7830 .E
+ 7840 LDAopton:CMP#&6:BEQdummy
+ 7850 .shuts
+ 7860 LDX#&FF:STXgrabs:STXvapor
+ 7870 STXimage:RTS
+ 7880  
+ 7890 ]:NEXT:END
+ 7900  
+

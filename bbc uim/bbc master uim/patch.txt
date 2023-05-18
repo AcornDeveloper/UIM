@@ -1,0 +1,128 @@
+   10 REM >PATCH
+   20 *K.0MO.7|MVDU14|ML.1180,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~O%,~P%|M
+   60 *K.4*SAVE :1.C.CODES 5800 +0300 0E00 0E00|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 randy=&10
+  100 death=&2D
+  110 vapor=&2E
+  120 dials=&40
+  130 noise=&78
+  140 stick=&79
+  150 oldrm=&F4
+  160 ships=&A0D
+  170 eurek=&A44
+  180 melog=&A50
+  190 jubox=&A57
+  200 suicd=&A58
+  210 wethr=&A5B
+  220 MZART=&8000
+  230 BREST=&8003
+  240 SHELA=&FE00
+  250 OSB=&FFF4
+  260 OSC=&FFF7
+  270 FORA%=4TO6STEP2
+  280 O%=&5800
+  290 P%=&E00
+  300 [OPTA%
+  310 .IPORT JMPA
+  320 .OPORT JMPB
+  330 .CEPTR JMPC
+  340 .STAVE JMPD
+  350 .STICK JMPE
+  360  
+  370 EQUS"Master and Master Compact "
+  380 EQUS"enhancement code.  "
+  390 EQUS"(c) 1989 THE FOURTH "
+  400 EQUS"DIMENSION.  "
+  410  
+  420 .A
+  430 LDAships:ORAjubox:BMInzart
+  440 LDAnoise:BNEdpart
+  450 SEI
+  460 LDA#&5:STAoldrm:STASHELA+&30
+  470 CLI
+  480 JSRMZART
+  490 SEI
+  500 LDA#&7:STAoldrm:STASHELA+&30
+  510 CLI
+  520 .nzart RTS
+  530  
+  540 .B
+  550 LDAeurek:ORAmelog
+  560 ORAwethr:BMIdpart
+  570 BITrandy+&3:BMIdpart:BVSdpart
+  580 LDArandy+&1:EORrandy+&2
+  590 CMP#&5:BCSdpart
+  600 LDXvapor:BPLdpart:TAX
+  610 LDAindex,X:STAvapor
+  620 .dpart
+  630 BITsuicd:BMInexts
+  640 LDAdials+&1:ORAdials+&2
+  650 ORAdials+&3:BNEnexts
+  660 LDAdeath:BNEdownc
+  670 LDAdials:CMP#&20
+  680 BCSnexts:INCdeath
+  690 .downc
+  700 LDA#&8:STAvapor
+  710 .nexts RTS
+  720  
+  730 .index
+  740 EQUB3:EQUB4:EQUB6:EQUB7
+  750 EQUB5
+  760  
+  770 .C
+  780 ASLA:TAX:PHX
+  790 LDYaddrs+&1,X:LDAaddrs,X
+  800 TAX:JSROSC:PLX
+  810 JMP(table,X)
+  820  
+  830 .addrs
+  840 EQUWuim_9
+  850 EQUWuim_a
+  860 EQUWuim_b
+  870 EQUWuim_c
+  880 EQUWuim_d
+  890 .table
+  900 EQUW&A08
+  910 EQUW&A08
+  920 EQUW&A08
+  930 EQUW&A08
+  940 EQUW&2280
+  950  
+  960 .uim_9
+  970 EQUS"SRREAD 2280 +06B1 8000 4"
+  980 EQUB&D
+  990 .uim_a
+ 1000 EQUS"SRREAD 2280 +0800 8000 6"
+ 1010 EQUB&D
+ 1020 .uim_b
+ 1030 EQUS"SRREAD 2E00 +08E0 9000 4"
+ 1040 EQUB&D
+ 1050 .uim_c
+ 1060 EQUS"SRREAD 2E00 +08E0 A000 4"
+ 1070 EQUB&D
+ 1080 .uim_d
+ 1090 EQUS"SRREAD 2280 +0100 B000 4"
+ 1100 EQUB&D
+ 1110  
+ 1120 .D
+ 1130 SEI
+ 1140 LDA#&5:STAoldrm:STASHELA+&30
+ 1150 CLI
+ 1160 JSRBREST
+ 1170 SEI
+ 1180 LDA#&7:STAoldrm:STASHELA+&30
+ 1190 CLI:RTS
+ 1200  
+ 1210 .E
+ 1220 LDA#&80:LDX#&1:JSROSB
+ 1230 STYstick
+ 1240 LDA#&80:LDX#&2:JSROSB
+ 1250 STYstick+&1:RTS
+ 1260  
+ 1270 ]:NEXT
+

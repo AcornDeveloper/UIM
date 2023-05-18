@@ -1,0 +1,63 @@
+   10 REM >SAVES
+   20 *K.0MO.7|MVDU14|ML.90,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~P%|M
+   60 *K.4*SAVE THREE 0C00 +100|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 tempa=&70
+  100 tempx=&71
+  110 tempy=&72
+  120 tempz=&73
+  130 oldrm=&F4
+  140 trams=&6000
+  150 SWRAM=&8000
+  160 SHELA=&FE00
+  170 OSW=&FFEE
+  180 OSO=&FFF1
+  190 OSB=&FFF4
+  200 OSC=&FFF7
+  210 FORA%=0TO2STEP2
+  220 P%=&C00
+  230 [OPTA%
+  240 .THREE
+  250 SEI
+  260 LDA#&7:STAoldrm:STASHELA+&30
+  270 CLI
+  280 LDX#&3
+  290 .trans
+  300 LDApara1,X:STAtempa,X
+  310 DEX:BPLtrans
+  320 JSRrates
+  330 LDX#fourf AND255:LDY#fourf DIV256
+  340 JSROSC:LDX#&3
+  350 .twice
+  360 LDApara2,X:STAtempa,X
+  370 DEX:BPLtwice
+  380 JSRrates
+  390 LDX#fifth AND255:LDY#fifth DIV256
+  400 JSROSC
+  410 SEI
+  420 LDA#&C:STAoldrm:STASHELA+&30
+  430 CLI:RTS
+  440  
+  450 .rates
+  460 LDX#32:LDY#&0
+  470 .apage
+  480 LDA(tempa),Y:STA(tempy),Y
+  490 INY:BNEapage
+  500 INCtempx:INCtempz:DEX:BNEapage
+  510 RTS
+  520  
+  530 .para1 EQUWSWRAM:EQUWtrams
+  540 .para2 EQUWSWRAM+&2000:EQUWtrams
+  550 .fourf
+  560 EQUS"SAVE :1.UIM-4 "
+  570 EQUS"6000 +2000 0B03 2000":EQUB&D
+  580 .fifth
+  590 EQUS"SAVE :1.UIM-5 "
+  600 EQUS"6000 +2000 0B03 2000":EQUB&D
+  610  
+  620 ]:NEXT
+

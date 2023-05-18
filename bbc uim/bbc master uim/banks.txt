@@ -1,0 +1,429 @@
+   10 REM >BANKS
+   20 *K.0MO.7|MVDU14|ML.3300,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~O%,~P%|M
+   60 *K.4PROCsaves|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 HIMEM=&5800
+  100 saddr=&3
+  110 needl=&B
+  120 randy=&10
+  130 vapor=&2E
+  140 dials=&40
+  150 rnums=&54
+  160 corns=&58
+  170 origx=&60
+  180 origy=&62
+  190 tcols=&64
+  200 joyky=&65
+  210 tempa=&70
+  220 tempx=&71
+  230 tempy=&72
+  240 tempz=&73
+  250 indir=&74
+  260 count=&76
+  270 noise=&78
+  280 opton=&82
+  290 strax=&90
+  300 stray=&92
+  310 endex=&94
+  320 endey=&96
+  330 galax=&A06
+  340 fuels=&A09
+  350 ships=&A0D
+  360 heats=&A0E
+  370 sixtn=&A10
+  380 buffr=&AD0
+  390 CHARS=&5400
+  400 VIDEO=&5820
+  410 CORNR=&7D87
+  420 SWRAM=&8000
+  430 PENCL=&9803
+  440 NOISE=&9806
+  450 names=&B586
+  460 OSW=&FFEE
+  470 OSO=&FFF1
+  480 OSB=&FFF4
+  490 FORA%=4TO6STEP2
+  500 O%=&5800
+  510 P%=&AB00
+  520 [OPTA%
+  530 .CHART
+  540 EQUS"--=UIM=-- "
+  550 EQUS"Written by Matthew Atkinson "
+  560 EQUS"for The Fourth Dimension "
+  570 EQUS"and YOU!!!. "
+  580 EQUS"I have been writing this "
+  590 EQUS"since I finished REPTON 3 "
+  600 EQUS"so I hope you like it!!!. "
+  610 EQUS"Many thanks to the "
+  620 EQUS"following who would all "
+  630 EQUS"like a mention...  "
+  640 EQUS"Firstly and definately "
+  650 EQUS"least Richard 'RYC' "
+  660 EQUS"Pontefract for providing "
+  670 EQUS"quite a bit of useful "
+  680 EQUS"software and testing "
+  690 EQUS"the damn thing.  "
+  700 EQUS"Alistair 'BOGEY BUM' "
+  710 EQUS"Alterskye for the curry "
+  720 EQUS"frenzy at the Karachi "
+  730 EQUS"on Neal St. Bradford.  "
+  740 EQUS"John 'MILLY' Markham "
+  750 EQUS"for providing transport to "
+  760 EQUS"the above frenzy.  "
+  770 EQUS"Simon 'METALLICA' Hall "
+  780 EQUS"plus ball and chain Monica "
+  790 EQUS"for dinner last Saturday.  "
+  800 EQUS"John 'BALD GIT' Peters "
+  810 EQUS"for ideas and beer.  "
+  820 EQUS"Nigel 'I did a bit' "
+  830 EQUS"Barnes "
+  840 EQUS"for PART of the title "
+  850 EQUS"screen.  "
+  860 EQUS"FINALLY for Paula 'PORGY' "
+  870 EQUS"Simpson who's going to "
+  880 EQUS"spend all the royalties "
+  890 EQUS"on an XR2 and a 16 tube "
+  900 EQUS"sunbed, if she can!!!.  "
+  910 EQUS"Watch out for the "
+  920 EQUS"Archimedes version "
+  930 EQUS"256 colour graphics "
+  940 EQUS"with filled polygons.  "
+  950 EQUS"(c) 1989 THE FOURTH "
+  960 EQUS"DIMENSION.  "
+  970  
+  980 ]O%=&5C00:P%=&AF00:[OPTA%
+  990 .GALAX JMPA
+ 1000 .SHOWS JMPB
+ 1010 .CLEAN JMPC
+ 1020 .WHITE JMPD
+ 1030 .PRYNT JMPE
+ 1040 .SEEDS JMPF
+ 1050 .GNAME JMPG
+ 1060 .HAIRS JMPH
+ 1070 .TRACT JMPI
+ 1080 .LAZER JMPJ
+ 1090 .BOTLN JMPK
+ 1100 .FLASH JMPL
+ 1110 .COLOR JMPM
+ 1120 .BARRS JMPN
+ 1130  
+ 1140 .A
+ 1150 JSRSEEDS
+ 1160 LDAgalax:STAtempa
+ 1170 .stars
+ 1180 CLC:LDX#&4:LDY#&29
+ 1190 .rndum
+ 1200 TYA:LDYrandy-&1,X:ADCrandy-&1,X
+ 1210 STArandy-&1,X:STArnums-&1,X
+ 1220 DEX:BNErndum
+ 1230 DECtempa:BNEstars
+ 1240 STXtempx
+ 1250 LDA#CHART DIV256:STAtempy
+ 1260 .fants
+ 1270 JSRTIRTY
+ 1280 LDX#&3:LDY#&0
+ 1290 .broke
+ 1300 LDArnums,X:ANDmasks,X
+ 1310 STA(tempx),Y:INY:DEX:BPLbroke
+ 1320 LDA(tempx):LDY#&1
+ 1330 ORA(tempx),Y:BNEitson
+ 1340 LDAtempx:AND#&7F:STA(tempx),Y
+ 1350 EOR#&7F:STA(tempx)
+ 1360 .itson
+ 1370 LDAtempx:CLC:ADC#&4:STAtempx
+ 1380 BCCuseds:INCtempy
+ 1390 .useds
+ 1400 DECtempa:BNEfants:RTS
+ 1410  
+ 1420 .masks EQUD&7F7F3FFF
+ 1430  
+ 1440 .TIRTY
+ 1450 LDX#&0
+ 1460 .pshlp
+ 1470 LDAcorns,X:PHA
+ 1480 LDArnums,X:STAcorns,X
+ 1490 INX:CPX#&4:BNEpshlp
+ 1500 LDY#&F5
+ 1510 .hftlp
+ 1520 ASLrnums:ROLrnums+&1
+ 1530 ROLrnums+&2:ROLrnums+&3
+ 1540 TYA:AND#&2:BNEslinx
+ 1550 JSRALIKE
+ 1560 .slinx
+ 1570 INY:BNEhftlp
+ 1580 JSRALIKE
+ 1590 CLC
+ 1600 LDArnums+&2:ADCcorns:STArnums+&2
+ 1610 LDArnums+&3:ADCcorns+&1
+ 1620 STArnums+&3
+ 1630 CLC
+ 1640 LDArnums:ADC#41:STArnums
+ 1650 LDArnums+&1:ADCcorns:STArnums+&1
+ 1660 LDArnums+&2:ADCcorns+&1
+ 1670 STArnums+&2
+ 1680 LDArnums+&3:ADCcorns+&2
+ 1690 STArnums+&3
+ 1700 LDX#&3
+ 1710 .loops
+ 1720 PLA:STAcorns,X
+ 1730 DEX:BPLloops:RTS
+ 1740  
+ 1750 .ALIKE
+ 1760 LDX#&FD:CLC
+ 1770 .addit
+ 1780 LDArnums+&3,X:ADCcorns+&3,X
+ 1790 STArnums+&3,X
+ 1800 INX:BNEaddit:RTS
+ 1810  
+ 1820 .B
+ 1830 LDX#&0
+ 1840 .shows
+ 1850 ]:FORJ%=0TO23:[OPTA%
+ 1860 LDA J%*256+SWRAM,X
+ 1870 STA J%*320+VIDEO,X
+ 1880 LDA J%*256+SWRAM+&1,X
+ 1890 STA J%*320+VIDEO+&1,X
+ 1900 LDA J%*256+SWRAM+&2,X
+ 1910 STA J%*320+VIDEO+&2,X
+ 1920 LDA J%*256+SWRAM+&3,X
+ 1930 STA J%*320+VIDEO+&3,X
+ 1940 ]:NEXT:[OPTA%
+ 1950 DEX:DEX
+ 1960 DEX:DEX:BEQexits:JMPshows
+ 1970 .exits RTS
+ 1980  
+ 1990 .C
+ 2000 LDX#&0:CLC
+ 2010 .twirl
+ 2020 ]
+ 2030 FORJ%=0TO23
+ 2040 [OPTA%
+ 2050 STZSWRAM+J%*&100,X
+ 2060 STZSWRAM+&1+J%*&100,X
+ 2070 ]
+ 2080 NEXT
+ 2090 [OPTA%
+ 2100 DEX:DEX:BEQledge:JMPtwirl
+ 2110 .ledge
+ 2120 LDA#&FF:STASWRAM,X
+ 2130 TXA:ADC#&8:TAX:BCCledge:RTS
+ 2140  
+ 2150 .D
+ 2160 LDY#&0:CLC
+ 2170 .white
+ 2180 LDA#&FF:STASWRAM+&207,Y
+ 2190 TYA:ADC#&8:TAY:BCCwhite:RTS
+ 2200  
+ 2210 .E
+ 2220 STAtempa:STXtempx:STYtempy
+ 2230 LDY#&0
+ 2240 .momen
+ 2250 LDA(tempx),Y:CMP#31:BNEreads
+ 2260 INY:LDA(tempx),Y:DECtempa
+ 2270 ASLA:ASLA:ASLA:STAsaddr
+ 2280 INY:LDA(tempx),Y:DECtempa
+ 2290 ADC#&81:STAsaddr+&1:BRAtunes
+ 2300 .reads
+ 2310 TAX
+ 2320 ASLA:ROLcount+&1
+ 2330 ASLA:ROLcount+&1
+ 2340 ASLA:ROLcount+&1:STAcount
+ 2350 LDAcount+&1:AND#&7:CLC
+ 2360 ADC#(CHARS-&100)DIV256:STAcount+&1
+ 2370 STYtempz:LDY#&1
+ 2380 LDAsaddr:STAindir
+ 2390 ADC#&8:STAsaddr
+ 2400 LDAsaddr+&1:STAindir+&1
+ 2410 ADC#&0:STAsaddr+&1
+ 2420 LDA(count):STA(indir)
+ 2430 LDA(count),Y:STA(indir),Y:INY
+ 2440 LDA(count),Y:STA(indir),Y:INY
+ 2450 LDA(count),Y:STA(indir),Y:INY
+ 2460 LDA(count),Y:STA(indir),Y:INY
+ 2470 LDA(count),Y:STA(indir),Y:INY
+ 2480 LDA(count),Y:STA(indir),Y:INY
+ 2490 LDA(count),Y:STA(indir),Y
+ 2500 LDYtempz
+ 2510 .tunes
+ 2520 INY:DECtempa:BNEmomen:RTS
+ 2530  
+ 2540 .F
+ 2550 LDA#&FE:STArandy+&3
+ 2560 LDA#&13:STArandy+&2
+ 2570 LDA#&48:STArandy+&1
+ 2580 LDA#&9A:STArandy:RTS
+ 2590  
+ 2600 .G
+ 2610 LDX#&4:LDYgalax
+ 2620 .wspac
+ 2630 LDAnames,Y:AND#&5F:STAsixtn,X
+ 2640 INY:DEX:BPLwspac:RTS
+ 2650  
+ 2660 .H
+ 2670 LDX#&3
+ 2680 .stran
+ 2690 LDAhairs,X
+ 2700 STASWRAM+14*8+10*256+4,X
+ 2710 STASWRAM+17*8+13*256,X
+ 2720 LDAhairs+&4,X
+ 2730 STASWRAM+14*8+13*256,X
+ 2740 STASWRAM+17*8+10*256+4,X
+ 2750 DEX:BPLstran:RTS
+ 2760  
+ 2770 .hairs
+ 2780 EQUD&30C30C0:EQUD&C0300C03
+ 2790  
+ 2800 .I
+ 2810 CMP#&8:BCCokays
+ 2820 AND#&7:EOR#&7
+ 2830 .okays
+ 2840 STAtempx
+ 2850 LDY#&0
+ 2860 STYstray+&1:STYstrax+&1
+ 2870 STYendex+&1:STYendey+&1
+ 2880 STYorigx:STYorigx+&1
+ 2890 STYorigy:STYorigy+&1
+ 2900 .beams
+ 2910 LDAtract,Y:STAstrax
+ 2920 LDAtract+&1,Y:STAstray
+ 2930 LDAtract+&2,Y:STAendex
+ 2940 LDAtract+&3,Y:STAendey
+ 2950 STYtempy:JSRPENCL
+ 2960 LDYtempy:INY:INY
+ 2970 DECtempx:BPLbeams:RTS
+ 2980  
+ 2990 .tract
+ 3000 EQUB0:EQUB0
+ 3010 EQUB220:EQUB80
+ 3020 EQUB120:EQUB180
+ 3030 EQUB70:EQUB60
+ 3040 EQUB170:EQUB80
+ 3050 EQUB128:EQUB140
+ 3060 EQUB100:EQUB85
+ 3070 EQUB145:EQUB94
+ 3080 EQUB128:EQUB96
+ 3090  
+ 3100 .J
+ 3110 STZstray+&1:STZstrax+&1
+ 3120 STZendex+&1:STZendey+&1
+ 3130 STZorigx:STZorigx+&1
+ 3140 STZorigy:STZorigy+&1
+ 3150 LDA#110:STAstrax
+ 3160 LDA#191:STAstray
+ 3170 LDA#128:STAendex
+ 3180 LDArandy+&1:AND#&F
+ 3190 ADC#88:STAendey
+ 3200 JSRPENCL
+ 3210 LDA#146:STAendex
+ 3220 LDA#191:STAendey
+ 3230 JMPPENCL
+ 3240  
+ 3250 .K
+ 3260 LDY#&0:CLC
+ 3270 .botln
+ 3280 LDA#&FF:STASWRAM+&1500,Y
+ 3290 TYA:ADC#&8:TAY:BCCbotln:RTS
+ 3300  
+ 3310 .L
+ 3320 LDA#SWRAM DIV256:STAflash+&2
+ 3330 LDA#&FF:STAneedl:STAvapor
+ 3340 LDX#24:LDY#&0
+ 3350 .flash
+ 3360 STASWRAM,Y:INY:BNEflash
+ 3370 INCflash+&2:DEX:BNEflash
+ 3380 JMPSHOWS
+ 3390  
+ 3400 .M
+ 3410 LDXopton:LDAcolor,X
+ 3420 BMIretun:STAtcols
+ 3430 .retun RTS
+ 3440  
+ 3450 .color
+ 3460 EQUD&06060503:EQUD&80050180
+ 3470 EQUW&8080
+ 3480 EQUD&05058080:EQUD&00040106
+ 3490 EQUW&8004
+ 3500 EQUD&06808080:EQUD&80800180
+ 3510 EQUW&8080
+ 3520  
+ 3530 .N
+ 3540 LDY#&0:LDAjoyky:BNEtrykb
+ 3550 LDAbuffr+&9:BEQbipas
+ 3560 STAjoyky:INY:BNEbipas
+ 3570 .trykb
+ 3580 LDAbuffr+&15:BEQbipas
+ 3590 STZjoyky:INY
+ 3600 .bipas
+ 3610 LDAnoise:BNEtryss
+ 3620 LDAbuffr+&20:BEQcolat
+ 3630 STAnoise:INY:BNEcolat
+ 3640 .tryss
+ 3650 LDAbuffr+&22:BEQcolat
+ 3660 LDA#&0:STAnoise:INY
+ 3670 .colat
+ 3680 TYA:BEQnobop
+ 3690 LDA#&0:JSRNOISE
+ 3700 .nobop
+ 3710 LDXfuels:BEQtiger:DEX
+ 3720 BNEtiger:INX
+ 3730 .tiger
+ 3740 TXA:SEC:ROLA:ASLA
+ 3750 ASLA:ASLA:STAdials+&5
+ 3760 LDAheats:STAdials+&6
+ 3770 LDX#&7:STXindir+&1
+ 3780 .graph
+ 3790 LDXindir+&1
+ 3800 LDAdials,X:CMPdials+&8,X
+ 3810 BEQnadju:STAdials+&8,X:TAY
+ 3820 LDAprism,X:STAtempa
+ 3830 LDAxcoor,X:TAX:JSRCOLUM
+ 3840 .nadju
+ 3850 DECindir+&1:BPLgraph:RTS
+ 3860  
+ 3870 .prism
+ 3880 EQUD&F1F11F1F
+ 3890 EQUD&F8F88F8F
+ 3900 .xcoor
+ 3910 EQUB1:EQUB2:EQUB3:EQUB4
+ 3920 EQUB35:EQUB36:EQUB37:EQUB38
+ 3930  
+ 3940 .COLUM
+ 3950 ASLA:ASLA:ASLA:ROLtempy
+ 3960 CLC:ADC#CORNR AND255:STAtempx
+ 3970 LDAtempy:AND#&1
+ 3980 ADC#CORNR DIV256:STAtempy
+ 3990 TYA:LSRA:LSRA:LSRA
+ 4000 STAtempz:BEQzeros:INCtempz
+ 4010 .zeros
+ 4020 LDA#&11:CPX#&10
+ 4030 BCClefts:LDA#&88
+ 4040 .lefts
+ 4050 STAindir
+ 4060 LDX#&0
+ 4070 .barrs
+ 4080 LDAtempa:CPXtempz
+ 4090 BCCcrome:LDAindir
+ 4100 .crome
+ 4110 STA(tempx)
+ 4120 LDAtempx:SEC:SBC#&1:STAtempx
+ 4130 BCScsets:DECtempy
+ 4140 .csets
+ 4150 AND#&7:CMP#&7:BNEnbord
+ 4160 LDAtempx:SEC:SBC#&38:STAtempx
+ 4170 LDAtempy:SBC#&1:STAtempy
+ 4180 .nbord
+ 4190 INX:CPX#&20:BNEbarrs:RTS
+ 4200  
+ 4210 ]:NEXT:END
+ 4220  
+ 4230 DEFPROCsaves
+ 4240 *SRLOAD :1.UIM-4 8000 7
+ 4250 *SRLOAD :1.UIM-5 A000 7
+ 4260 *SRWRITE 5800 +0A80 AB00 7
+ 4270 *THREE
+ 4280 ENDPROC
+

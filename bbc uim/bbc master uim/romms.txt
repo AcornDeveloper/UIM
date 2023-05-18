@@ -1,0 +1,642 @@
+   10 REM >ROMMS
+   20 *K.0MO.7|MVDU14|ML.4680,|M
+   30 *K.1RUN|M
+   40 *K.2REN.|M
+   50 *K.3P.~O%,~P%|M
+   60 *K.4PROCsaves|M
+   70 *K.10O.|M*FX12,2|M
+   80 *TV255,1
+   90 HIMEM=&5800
+  100 elaps=12
+  110  
+  120 randy=&10
+  130 force=&16
+  140 flits=&29
+  150 negag=&30
+  160 store=&31
+  170 dials=&40
+  180 squar=&50:partr=&50
+  190 rsqlo=&52:remms=&52
+  200 fingr=&53
+  210 taget=&5D
+  220 origx=&60
+  230 origy=&62
+  240 joyky=&65
+  250 tempa=&70
+  260 tempx=&71
+  270 tempy=&72
+  280 tempz=&73
+  290 indir=&74
+  300 count=&76
+  310 fires=&7B
+  320 piccy=&7D
+  330 opton=&82
+  340 basic=&83
+  350 swram=&84
+  360 prodt=&85
+  370 mcand=&89
+  380 sunnx=&90
+  390 sunny=&91
+  400 galax=&A06
+  410 plant=&A07
+  420 fuels=&A09
+  430 ships=&A0D
+  440 sixtn=&A10
+  450 missl=&A30
+  460 eurek=&A44
+  470 navig=&A46
+  480 strin=&A60
+  490 buffr=&AD0
+  500 TICKL=&120C
+  510 NOISE=&9806
+  520 CHART=&AB00
+  530 SHOWS=&AF03
+  540 CLEAN=&AF06
+  550 WHITE=&AF09
+  560 PRYNT=&AF0C
+  570 SEEDS=&AF0F
+  580 GNAME=&AF12
+  590 LAZER=&AF1B
+  600 BOTLN=&AF1E
+  610 NAMES=&B580
+  620 BUFFR=&B583
+  630 SHELA=&FE00
+  640 OSW=&FFEE
+  650 OSO=&FFF1
+  660 OSB=&FFF4
+  670 FORA%=4TO6STEP2
+  680 O%=&5800
+  690 P%=&B780
+  700 [OPTA%
+  710 .RELAT JMPA
+  720 .CALCD JMPB
+  730 .GLOBE JMPC
+  740 .TROWS JMPD
+  750 .KEYRD JMPE
+  760 .INDIR JMPF
+  770 .DRAIN JMPG
+  780 .SMULT JMPH
+  790 .ROOTS JMPI
+  800 .SWEET JMPJ
+  810  
+  820 .timer EQUB0
+  830 .rease EQUB0
+  840 .rname EQUB0
+  850 .jumpi
+  860 EQUWUNNES:EQUWQUART
+  870 EQUWTROIS:EQUWQUART
+  880 EQUWFIVES:EQUWSIXES
+  890 EQUWSEVEN:EQUWEIGHT
+  900  
+  910 .REASE
+  920 LDXtimer:BEQexits
+  930 LDArease:BEQexits:ASLA:TAX
+  940 JMP(jumpi-&2,X)
+  950 .exits RTS
+  960  
+  970 .UNNES
+  980 LDX#inter AND255:LDY#inter DIV256
+  990 LDA#peace-inter:JMPPRYNT
+ 1000  
+ 1010 .TROIS
+ 1020 JSRQUART
+ 1030 LDX#metre AND255:LDY#metre DIV256
+ 1040 LDA#shaft-metre:JMPPRYNT
+ 1050  
+ 1060 .QUART
+ 1070 LDX#shake AND255:LDY#shake DIV256
+ 1080 LDAstore:JMPPRYNT
+ 1090  
+ 1100 .FIVES
+ 1110 LDX#corse AND255:LDY#corse DIV256
+ 1120 LDAstore:JMPPRYNT
+ 1130  
+ 1140 .SIXES
+ 1150 LDX#tanks AND255:LDY#tanks DIV256
+ 1160 LDA#corse-tanks:JMPPRYNT
+ 1170  
+ 1180 .SEVEN
+ 1190 LDX#iside AND255:LDY#iside DIV256
+ 1200 LDA#tanks-iside:JMPPRYNT
+ 1210  
+ 1220 .EIGHT
+ 1230 LDX#peace AND255:LDY#peace DIV256
+ 1240 LDA#absnt-peace:JMPPRYNT
+ 1250  
+ 1260 .iside
+ 1270 EQUW&A1F:EQUB21
+ 1280 EQUS"Present port"
+ 1290 .tanks
+ 1300 EQUW&B1F:EQUB21
+ 1310 EQUS"Deuterium?"
+ 1320 .corse
+ 1330 EQUW&1F:EQUB21
+ 1340 EQUS"Orbital to "
+ 1350 .blank
+ 1360 EQUS"************"
+ 1370 .shake
+ 1380 EQUW&1F:EQUB21:EQUD0:EQUD0:EQUD0
+ 1390 .metre
+ 1400 EQUS"    00."
+ 1410 .tinys
+ 1420 EQUS"0 NKm"
+ 1430 .shaft
+ 1440  
+ 1450 .FINDS
+ 1460 LDAships:ORAeurek
+ 1470 ORAnavig:BMInfind
+ 1480 LDAbuffr+&2C:ANDbuffr+&A:BEQnfind
+ 1490 STZrname
+ 1500 LDA#elaps:STAtimer
+ 1510 JSRSHOWS
+ 1520 LDX#dataf AND255:LDY#dataf DIV256
+ 1530 LDA#inter-dataf:JSRINDIR
+ 1540 LDA#12:LDX#&FF:JSRKEYRD
+ 1550 LDX#15
+ 1560 .cases
+ 1570 LDAsixtn,X:BEQnexts
+ 1580 CMP#ASC"-":BEQnexts
+ 1590 CMP#ASC"*":BEQnexts
+ 1600 CMP#ASC"[":BCSnexts
+ 1610 ADC#32:STAsixtn,X
+ 1620 .nexts
+ 1630 DEX:BNEcases
+ 1640 LDAsixtn:CMP#ASC"[":BCClarge
+ 1650 AND#&5F:STAsixtn
+ 1660 .large
+ 1670 LDX#15
+ 1680 .trans
+ 1690 LDAsixtn,X:STAstrin,X
+ 1700 DEX:BPLtrans
+ 1710 LDA#&0:JSRLARGE
+ 1720 LDA#&1:STArease
+ 1730 .nfind RTS
+ 1740  
+ 1750 .LARGE
+ 1760 STAprogs
+ 1770 ]PROCaddrs(tempx):[OPTA%
+ 1780 .looks
+ 1790 LDA(tempx):LDY#&1
+ 1800 ORA(tempx),Y:BEQtrash
+ 1810 LDAprogs:JSRNAMES
+ 1820 LDX#&0:LDY#15
+ 1830 .tests
+ 1840 LDAsixtn+&10,X:BNEnocar
+ 1850 LDAsixtn,X:BEQfound
+ 1860 .nocar
+ 1870 LDAsixtn,X:CMP#ASC"*":BEQfound
+ 1880 LDAsixtn+&10,X
+ 1890 CMPsixtn,X:BNEtrash
+ 1900 INX:DEY:BPLtests
+ 1910 .trash
+ 1920 ]PROCaddfour(tempx):[OPTA%
+ 1930 INCprogs:BNElooks:RTS
+ 1940 .found
+ 1950 LDA(tempx):STAxcoor:LDY#&1
+ 1960 LDA(tempx),Y:STAycoor:INY
+ 1970 LDA(tempx),Y:STAzcoor
+ 1980 LDAprogs:JSRNAMES
+ 1990 LDX#&3
+ 2000 .swing
+ 2010 LDAsixtn+&D,X:BEQfinit
+ 2020 STAshake,X:INX:BNEswing
+ 2030 .finit
+ 2040 STXstore
+ 2050 LDA#35:SEC:SBCstore
+ 2060 LSRA:STAshake+&1
+ 2070 LDA#&2:STArease:PLA:PLA
+ 2080 .nhome RTS
+ 2090  
+ 2100 .progs EQUB0
+ 2110 .reles EQUB0
+ 2120 .dataf
+ 2130 EQUW&11F:EQUB21
+ 2140 EQUS"Which port? "
+ 2150 .inter
+ 2160 EQUW&A1F:EQUB21
+ 2170 EQUS"No such port"
+ 2180 .peace
+ 2190 EQUW&C1F:EQUB21
+ 2200 EQUS"No more"
+ 2210 .absnt
+ 2220  
+ 2230 .MATCH
+ 2240 LDAships:ORAeurek
+ 2250 ORAnavig:BMInhome
+ 2260 LDAbuffr+&2D:ANDbuffr+&C:BEQclear
+ 2270 LDAreles:BNEleave:INCreles
+ 2280 LDArname:BNEwraps
+ 2290 LDA#elaps:STAtimer
+ 2300 LDX#15
+ 2310 .recov
+ 2320 LDAstrin,X:STAsixtn,X
+ 2330 DEX:BPLrecov
+ 2340 INCprogs:BEQwraps
+ 2350 LDAprogs:JSRLARGE
+ 2360 .wraps
+ 2370 LDA#&8:STArease:STArname:RTS
+ 2380 .clear
+ 2390 STAreles:RTS
+ 2400  
+ 2410 .HOMES
+ 2420 LDAbuffr+&2C:ANDbuffr+&B:BEQleave
+ 2430 .J
+ 2440 LDAplant:]PROCaddrs(tempa):[OPTA%
+ 2450 LDA(tempa),Y:TAX:INY
+ 2460 ORA(tempa),Y:BEQleave:STXxcoor
+ 2470 LDA(tempa),Y:STAycoor:INY
+ 2480 LDA(tempa),Y:STAzcoor
+ 2490 .leave RTS
+ 2500  
+ 2510 .CORSE
+ 2520 LDAships:ORAeurek
+ 2530 ORAnavig:BMIleave
+ 2540 LDAbuffr+&2D:ANDbuffr+&A:BEQleave
+ 2550 LDA#elaps:STAtimer
+ 2560 JSRRELAT
+ 2570 LDAtaget:CMPplant:BNEabrod
+ 2580 LDA#&7:STArease:RTS
+ 2590 .abrod
+ 2600 LDX#&0:STXcount:DEX:STXpiccy
+ 2610 .paths
+ 2620 LDAcount:CMPplant:BEQbypas
+ 2630 ]PROCaddrs(tempy):[OPTA%
+ 2640 LDAplant:]PROCaddrs(tempa):[OPTA%
+ 2650 JSRCALCD
+ 2660 LDAfuels:CMPpartr:BCCbypas
+ 2670 LDAtaget:]PROCaddrs(tempa):[OPTA%
+ 2680 JSRCALCD
+ 2690 LDApartr:CMPpiccy
+ 2700 BCSbypas:STApiccy
+ 2710 LDAcount:STApiccy+&1
+ 2720 .bypas
+ 2730 INCcount:BNEpaths
+ 2740 BITpiccy:BPLroads
+ 2750 LDA#&6:STArease:RTS
+ 2760 .roads
+ 2770 LDApiccy+&1:JSRNAMES
+ 2780 LDX#&0
+ 2790 .eight
+ 2800 LDAsixtn+&10,X:BEQbedit
+ 2810 STAblank,X:INX:BNEeight
+ 2820 .bedit
+ 2830 TXA:CLC:ADC#blank-corse:STAstore
+ 2840 LDA#35:SEC:SBCstore
+ 2850 LSRA:STAcorse+&1
+ 2860 LDA#&5:STArease
+ 2870 .abort RTS
+ 2880  
+ 2890 .DISTN
+ 2900 LDAbuffr+&2D:ANDbuffr+&B:BEQabort
+ 2910 LDA#elaps:STAtimer
+ 2920 JSRRELAT
+ 2930 LDAtaget:JSRNAMES:LDX#&3
+ 2940 .woods
+ 2950 LDAsixtn+&D,X:BEQforwt
+ 2960 STAshake,X:INX:BNEwoods
+ 2970 .forwt
+ 2980 STXstore
+ 2990 LDA#35:SEC:SBCstore
+ 3000 LSRA:STAshake+&1
+ 3010 LDXtaget:CPXplant:BNEapart
+ 3020 LDA#&4:STArease:RTS
+ 3030 .apart
+ 3040 SBC#&6:STAshake+&1
+ 3050 JSRCALCD
+ 3060 LDAremms:SEC:LDX#ASC"0"
+ 3070 .takes
+ 3080 SBC#26:BCCadele:INX:BNEtakes
+ 3090 .adele
+ 3100 STXtinys:LDX#&2
+ 3110 LDA#ASC" ":STAmetre+&1:STAmetre+&2
+ 3120 .volum
+ 3130 LDY#&8:LDA#&0
+ 3140 .shape
+ 3150 ASLpartr:ROLA:CMP#10:BCCslipy
+ 3160 SBC#10:INCpartr
+ 3170 .slipy
+ 3180 DEY:BNEshape:CLC
+ 3190 ADC#ASC"0":STAmetre+&1,X:DEX
+ 3200 LDApartr:BNEvolum
+ 3210 LDA#&3:STArease:RTS
+ 3220  
+ 3230 .STELA
+ 3240 STZtempa:STZtempx
+ 3250 LDAxcoor:SEC:SBC#15:STAsunnx
+ 3260 LDAycoor:SEC:SBC#9:STAsunny
+ 3270 LDA#CHART DIV256:STAtempy
+ 3280 .inrag
+ 3290 LDA(tempx):TAX:LDY#&1
+ 3300 ORA(tempx),Y:BEQvanis
+ 3310 TXA:SEC:SBCsunnx
+ 3320 CMP#32:BCSvanis:STAstarx
+ 3330 LDA(tempx),Y:SEC:SBCsunny
+ 3340 CMP#18:BCSvanis:STAtempz
+ 3350 LDA#20:SEC:SBCtempz:STAstary
+ 3360 INY:LDA(tempx),Y
+ 3370 SEC:SBCzcoor:BCCvanis
+ 3380 LSRA:EOR#&F:CMP#&10:BCSvanis
+ 3390 TAX:LDYstary
+ 3400 CPY#21:BCSvanis:CPY#&3:BCCvanis
+ 3410 LDAstarx:ASLA:ASLA:ASLA:STAindir
+ 3420 TYA:ORA#&80:STAindir+&1
+ 3430 TXA:ASLA:ASLA:ASLA:TAX:LDY#&7
+ 3440 .orrit
+ 3450 LDAblues,X:ORA(indir),Y
+ 3460 STA(indir),Y:INX:DEY:BPLorrit
+ 3470 .vanis
+ 3480 ]PROCaddfour(tempx):[OPTA%
+ 3490 DECtempa:BNEinrag:RTS
+ 3500  
+ 3510 .MANIP
+ 3520 LDX#&5
+ 3530 .scank
+ 3540 LDAbuffr+&16,X:BEQnopre
+ 3550 STZtimer:STZrease
+ 3560 LDAxcoor:CLC:ADCxadds,X
+ 3570 BMInopre:AND#127:STAxcoor
+ 3580 LDAycoor:CLC:ADCyadds,X
+ 3590 BMInopre:AND#127:STAycoor
+ 3600 LDAzcoor:CLC:ADCzadds,X
+ 3610 ASLA:BMInopre:LSRA:STAzcoor
+ 3620 .nopre
+ 3630 DEX:BPLscank
+ 3640 .manip RTS
+ 3650  
+ 3660 .title
+ 3670 EQUW&91F:EQUB0
+ 3680 .gname
+ 3690 EQUS"      NETWORK"
+ 3700 EQUW&1A1F:EQUB0
+ 3710 .numbr
+ 3720 EQUS"***"
+ 3730 EQUW&F1F:EQUB10:EQUB140
+ 3740  
+ 3750 .TEXTS
+ 3760 JSRGNAME:LDX#&4
+ 3770 .wspac
+ 3780 LDAsixtn,X:STAgname,X
+ 3790 DEX:BPLwspac
+ 3800 LDA#ASC" ":STAnumbr:STAnumbr+&1
+ 3810 LDAgalax:STAtempa:LDX#&2
+ 3820 .xolum
+ 3830 LDY#&8:LDA#&0
+ 3840 .xhape
+ 3850 ASLtempa:ROLA:CMP#10:BCCxlipy
+ 3860 SBC#10:INCtempa
+ 3870 .xlipy
+ 3880 DEY:BNExhape:CLC
+ 3890 ADC#ASC"0":STAnumbr,X:DEX
+ 3900 LDAtempa:BNExolum
+ 3910 LDX#title AND255:LDY#title DIV256
+ 3920 LDA#TEXTS-title:JMPPRYNT
+ 3930  
+ 3940 .cistm
+ 3950 EQUW&71F:EQUB21
+ 3960 EQUS"COORDINATES "
+ 3970 .sectx EQUS"  "
+ 3980 .secty EQUS"  "
+ 3990 .sectz EQUS" "
+ 4000  
+ 4010 .CISTM
+ 4020 LDAtimer:BEQnosel:DECtimer
+ 4030 LDAtimer:BEQnosel:RTS
+ 4040 .nosel
+ 4050 STZrease
+ 4060 LDAxcoor:LSRA:LSRA:LSRA:LSRA
+ 4070 CLC:ADC#ASC"A":STAsectx
+ 4080 LDAycoor:LSRA:LSRA:LSRA:LSRA
+ 4090 ORA#ASC"0":STAsecty
+ 4100 LDAzcoor:LSRA:LSRA:LSRA
+ 4110 ORA#ASC"0":STAsectz
+ 4120 LDX#cistm AND255:LDY#cistm DIV256
+ 4130 LDA#CISTM-cistm:JMPPRYNT
+ 4140  
+ 4150 .xcoor EQUB64
+ 4160 .ycoor EQUB64
+ 4170 .zcoor EQUB32
+ 4180 .xadds EQUD&1FF0000
+ 4190 .yadds EQUD0
+ 4200 .zadds EQUD&FF01:EQUW0
+ 4210  
+ 4220 .starx EQUB0
+ 4230 .stary EQUB0
+ 4240 .blues
+ 4250 EQUD&10000000:EQUD&0
+ 4260 EQUD&18000000:EQUD&0
+ 4270 EQUD&18000000:EQUD&8
+ 4280 EQUD&18000000:EQUD&18
+ 4290 EQUD&18080000:EQUD&18
+ 4300 EQUD&18080000:EQUD&1018
+ 4310 EQUD&38080000:EQUD&1018
+ 4320 EQUD&38080000:EQUD&101C
+ 4330 EQUD&38080000:EQUD&181C
+ 4340 EQUD&3C080000:EQUD&181C
+ 4350 EQUD&3C080000:EQUD&183C
+ 4360 EQUD&3C180000:EQUD&183C
+ 4370 EQUD&7C180800:EQUD&10183E
+ 4380 EQUD&7E3C1800:EQUD&183C7E
+ 4390 EQUD&FF7E3C18:EQUD&183C7EFF
+ 4400 EQUD&FFFF7E3C:EQUD&3C7EFFFF
+ 4410  
+ 4420 .E
+ 4430 STAtempa:STAtempx
+ 4440 TXA:BMInotab
+ 4450 LDA#31:JSROSW
+ 4460 TXA:JSROSW:TYA:JSROSW
+ 4470 .notab
+ 4480 LDA#21:LDX#&0:STXtempz:JSROSB
+ 4490 .prite
+ 4500 LDA#145:LDX#&0:JSROSB
+ 4510 BCSprite:CPY#&D:BEQstrig:TYA
+ 4520 CMP#32:BCCprite
+ 4530 CMP#127:BEQbacks
+ 4540 BCSprite:JSROSW
+ 4550 LDYtempz:STAsixtn,Y
+ 4560 INCtempz:DECtempa:BNEprite
+ 4570 .strig
+ 4580 LDXtempz:STZsixtn,X:RTS
+ 4590 .backs
+ 4600 LDXtempx:CPXtempa:BEQprite
+ 4610 JSROSW:DECtempz
+ 4620 INCtempa:BNEprite
+ 4630  
+ 4640 .A
+ 4650 LDX#&FF:STXindir+&1
+ 4660 INX:STXtempa
+ 4670 LDA#CHART DIV256:STAtempx
+ 4680 .serch
+ 4690 LDY#&1:LDA(tempa),Y
+ 4700 ORA(tempa):BEQtobig
+ 4710 LDA(tempa):SEC:SBCxcoor
+ 4720 ]PROCnegate:[OPTA%
+ 4730 STAindir
+ 4740 LDA(tempa),Y:SEC:SBCycoor
+ 4750 ]PROCnegate:[OPTA%
+ 4760 CLC:ADCindir:STAindir:INY
+ 4770 LDA(tempa),Y:SEC:SBCzcoor
+ 4780 ]PROCnegate:[OPTA%
+ 4790 CLC:ADCindir:BCStobig
+ 4800 CMPindir+&1:BCStobig
+ 4810 STAindir+&1:STXtaget
+ 4820 .tobig
+ 4830 ]PROCaddfour(tempa):[OPTA%
+ 4840 INX:BNEserch
+ 4850 LDAplant:]PROCaddrs(tempa):[OPTA%
+ 4860 LDAtaget:]PROCaddrs(tempy):[OPTA%
+ 4870 LDA(tempy),Y:STAxcoor:INY
+ 4880 LDA(tempy),Y:STAycoor:INY
+ 4890 LDA(tempy),Y:STAzcoor:RTS
+ 4900  
+ 4910 .B
+ 4920 ]PROCdiffs(0):[OPTA%
+ 4930 LDAprodt:STAindir
+ 4940 LDAprodt+&1:STAindir+&1
+ 4950 ]PROCdiffs(1):[OPTA%
+ 4960 LDAprodt:CLC:ADCindir:STAindir
+ 4970 LDAprodt+1:ADCindir+1:STAindir+1
+ 4980 ]PROCdiffs(2):[OPTA%
+ 4990 LDAprodt:CLC:ADCindir
+ 5000 STAsquar
+ 5010 LDAprodt+&1:ADCindir+&1
+ 5020 STAsquar+&1
+ 5030 JSRI:STZremms:RTS
+ 5040  
+ 5050 .C
+ 5060 JSRCLEAN
+ 5070 JSRWHITE
+ 5080 JSRBOTLN
+ 5090 JSRTEXTS
+ 5100 JSRHOMES
+ 5110 JSRDISTN
+ 5120 JSRCORSE
+ 5130 JSRMANIP
+ 5140 JSRSTELA
+ 5150 JSRFINDS
+ 5160 JSRMATCH
+ 5170 JSRCISTM
+ 5180 JMPREASE
+ 5190  
+ 5200 .D
+ 5210 LDA#&A:LDXbuffr+&2C:BNEalert
+ 5220 ASLA:LDXbuffr+&2D:BNEalert
+ 5230 TXA
+ 5240 .alert
+ 5250 LDX#&9
+ 5260 .scans
+ 5270 LDYbuffr+&A,X:BNEpress
+ 5280 DEX:BPLscans:RTS
+ 5290 .press
+ 5300 STXtempx:CLC:ADCtempx:TAX
+ 5310 LDYvalid,X:BEQretun
+ 5320 BITships:BMIether
+ 5330 CPY#&3:BCSretun:STXopton+&1:RTS
+ 5340 .ether
+ 5350 DEY:BEQretun:STXopton+&1
+ 5360 .retun RTS
+ 5370  
+ 5380 .valid
+ 5390 EQUD&1010202:EQUD&0030101:EQUW&000
+ 5400 EQUD&2020000:EQUD&1010102:EQUW&002
+ 5410 EQUD&1000000:EQUD&0000100:EQUW&300
+ 5420  
+ 5430 .F
+ 5440 STXindir:STYindir+&1:TAX:LDY#&0
+ 5450 .budge
+ 5460 LDA(indir),Y:JSROSW
+ 5470 INY:DEX:BNEbudge:RTS
+ 5480  
+ 5490 .G
+ 5500 INCflits:LDAflits
+ 5510 LSRA:BCCnfire
+ 5520 LDAjoyky:BEQkeybd
+ 5530 LDAfires:BEQnfire
+ 5540 .shoot
+ 5550 LDX#&3
+ 5560 .loops
+ 5570 LDYofset,X:LDAmissl,Y
+ 5580 BPLpower:DEX:BNEloops
+ 5590 LDX#&2
+ 5600 .power
+ 5610 STXforce
+ 5620 LDAdials+&7:CMP#&30
+ 5630 BCCnfire:SBC#&30:STAdials+&7
+ 5640 JSRLAZER
+ 5650 JSRTICKL
+ 5660 LDA#&D:JMPNOISE
+ 5670 .keybd
+ 5680 LDAbuffr+&14:BNEshoot
+ 5690 .nfire RTS
+ 5700  
+ 5710 .ofset EQUD&A080604
+ 5720  
+ 5730 .H
+ 5740 LDA#&0
+ 5750 ]PROCexpand:[OPTA%
+ 5760 RORprodt:STAprodt+&1:RTS
+ 5770  
+ 5780 .I
+ 5790 LDYsquar+&1:LDAsquar
+ 5800 STArsqlo:LDX#&0:STXpartr
+ 5810 LDA#&8:STAfingr
+ 5820 .pairl
+ 5830 CPXpartr:BCCnexpr:BNEptsub
+ 5840 CPY#&40:BCCnexpr
+ 5850 .ptsub
+ 5860 TYA:SBC#&40:TAY
+ 5870 TXA:SBCpartr:TAX
+ 5880 .nexpr
+ 5890 ROLpartr:ASLrsqlo
+ 5900 TYA:ROLA:TAY:TXA:ROLA:TAX
+ 5910 ASLrsqlo
+ 5920 TYA:ROLA:TAY:TXA:ROLA:TAX
+ 5930 DECfingr:BNEpairl
+ 5940 STXremms:RORremms:STYsquar+&1
+ 5950 RTS
+ 5960  
+ 5970 ]:NEXT:END
+ 5980  
+ 5990 DEFPROCnegate:[OPTA%
+ 6000 BPLP%+&9:STAnegag:LDA#&0
+ 6010 SEC:SBCnegag
+ 6020 ]ENDPROC
+ 6030  
+ 6040 DEFPROCaddfour(base%):[OPTA%
+ 6050 LDAbase%:CLC:ADC#&4:STAbase%
+ 6060 BCCP%+&4:INCbase%+&1
+ 6070 ]ENDPROC
+ 6080  
+ 6090 DEFPROCaddrs(form%):[OPTA%
+ 6100 LDY#&0:STYform%+&1
+ 6110 ASLA:ROLform%+1:ASLA
+ 6120 ROLform%+&1:STAform%
+ 6130 LDAform%+&1:ADC#CHART DIV256
+ 6140 STAform%+&1
+ 6150 ]ENDPROC
+ 6160  
+ 6170 DEFPROCdiffs(yreg%):[OPTA%
+ 6180 LDY#yreg%:SEC
+ 6190 LDA(tempa),Y:SBC(tempy),Y
+ 6200 ]PROCnegate:[OPTA%
+ 6210 STAmcand:STAprodt
+ 6220 JSR H
+ 6230 ]ENDPROC
+ 6240  
+ 6250 DEFPROCexpand
+ 6260 FORJ%=1TO8
+ 6270 [OPTA%
+ 6280 RORprodt:BCCP%+&5
+ 6290 CLC:ADCmcand
+ 6300 RORA
+ 6310 ]
+ 6320 NEXT
+ 6330 ENDPROC
+ 6340  
+ 6350 DEFPROCsaves
+ 6360 *SRLOAD :1.UIM-4 8000 7
+ 6370 *SRLOAD :1.UIM-5 A000 7
+ 6380 *SRWRITE 5800 +0880 B780 7
+ 6390 *THREE
+ 6400 ENDPROC
+ 6410  
+
