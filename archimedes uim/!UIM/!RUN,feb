@@ -1,0 +1,29 @@
+QUIT
+ECHO <22><15>
+|RMCLEAR
+Set UIM$Dir <Obey$Dir>
+WIMPSLOT 441K 441K
+<UIM$Dir>.Samples.Proc1
+<UIM$Dir>.Samples.Proc2
+<UIM$Dir>.Samples.Proc3
+<UIM$Dir>.Samples.Proc4
+<UIM$Dir>.Samples.Launch
+<UIM$Dir>.Samples.Phasor
+<UIM$Dir>.Samples.Energy
+<UIM$Dir>.Samples.Shield
+<UIM$Dir>.Samples.Heat
+<UIM$Dir>.Samples.Subsmash
+<UIM$Dir>.Samples.Splash
+<UIM$Dir>.Samples.Thermo
+<UIM$Dir>.Samples.Torpedo
+<UIM$Dir>.Samples.Mine
+<UIM$Dir>.Samples.Flare
+<UIM$Dir>.Samples.Chaff
+<UIM$Dir>.Samples.Chameleon
+<UIM$Dir>.Samples.Stealth
+<UIM$Dir>.Samples.Retarget
+<UIM$Dir>.Samples.Manip
+<UIM$Dir>.Samples.Muffle
+<UIM$Dir>.Samples.Gener
+<UIM$Dir>.Samples.Explosion
+RUN <UIM$Dir>.UIM
